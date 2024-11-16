@@ -18,7 +18,7 @@ sequelize
 // NOTE: for development purposes, set force to true;
 // For production, you would likely want to use more robust database versioning with migrations
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log('Database & tables synced!');
     app.listen(PORT, () => {

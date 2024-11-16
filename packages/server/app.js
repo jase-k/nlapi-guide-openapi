@@ -65,8 +65,10 @@ app.use(express.json());
 // Routes
 const userRoutes = require('./routes/userRoutes');
 const familyRoutes = require('./routes/familyRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/families', familyRoutes);
+app.use('/api/session', sessionRoutes);
 
 module.exports = app;
