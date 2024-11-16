@@ -8,9 +8,10 @@
   },
   "scripts": {
     "build": "npm run build --workspaces",
-    "dev": "npm-run-all --parallel --print-label dev:client dev:server",
+    "dev": "npm run start-db && npm-run-all --parallel --print-label dev:client dev:server",
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
+    "start-db": "node scripts/start-db.js",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces"
   },
