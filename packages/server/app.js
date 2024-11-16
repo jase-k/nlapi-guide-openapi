@@ -39,7 +39,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./src/routes/*.js', './src/models/*.js'],
+  apis: ['./routes/*.js', './models/*.js'],
 };
 
 // Initialize Swagger JSDoc
@@ -63,12 +63,10 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
 
 // Routes
-// const userRoutes = require("./routes/userRoutes");
-// const companyRoutes = require("./routes/companyRoutes");
-// const sessionRoutes = require("./routes/sessionRoutes");
+const userRoutes = require('./routes/userRoutes');
+const familyRoutes = require('./routes/familyRoutes');
 
-// app.use("/api/users", userRoutes);
-// app.use("/api/companies", companyRoutes);
-// app.use("/api/session", sessionRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/families', familyRoutes);
 
 module.exports = app;
