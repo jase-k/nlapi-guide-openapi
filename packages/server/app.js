@@ -15,9 +15,9 @@ const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'My Sample App API',
+      title: 'NLAPI Guide API',
       version: '1.0.0',
-      description: 'API documentation for My Sample App',
+      description: 'API documentation for NLAPI Guide',
     },
     servers: [
       {
