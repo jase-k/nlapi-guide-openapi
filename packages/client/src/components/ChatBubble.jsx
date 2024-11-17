@@ -78,6 +78,7 @@ export default function Component() {
           body: JSON.stringify(body),
         });
         if (!response.ok) {
+          console.log('Response from NLAPI:', response);
           throw new Error('Failed to send message to NLAPI');
         }
         const data = await response.json();
