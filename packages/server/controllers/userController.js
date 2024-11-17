@@ -4,7 +4,9 @@ const { fn, col } = require('sequelize');
 // Get all users
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'familyId', 'email'],
+    });
     res.status(200).json(users);
   } catch (error) {
     console.error('Error retrieving users:', error);
@@ -15,7 +17,9 @@ exports.getAllUsers = async (req, res) => {
 // Get a user by ID
 exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.user.id, {
+      attributes: ['id', 'name', 'familyId', 'email'],
+    });
     if (user) {
       res.status(200).json(user);
     } else {
@@ -46,12 +50,15 @@ exports.searchUsers = async (req, res) => {
     const searchUsers = await User.findAll({
       order: [[fn('similarity', col(searchBy), query), 'DESC']],
       limit: parseInt(limit, 10),
+      attributes: ['id', 'name', 'familyId', 'email'],
     });
 
-    return res.json(searchUsers);
+    return res.status(200).json(searchUsers);
   } catch (err) {
     console.error('Error searching users:', err);
-    return res.status(500).json({ error: err.message });
+    return res
+      .status(500)
+      .json({ error: `Failed to search users: ${err.message}` });
   }
 };
 
@@ -67,7 +74,9 @@ exports.getUserProfile = async (req, res) => {
     }
   } catch (error) {
     console.error('Error retrieving user profile:', error);
-    res.status(500).json({ error: 'Failed to retrieve user profile' });
+    res
+      .status(500)
+      .json({ error: `Failed to retrieve user profile: ${error}` });
   }
 };
 
