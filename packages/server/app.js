@@ -66,9 +66,11 @@ app.use(express.json());
 const userRoutes = require('./routes/userRoutes');
 const familyRoutes = require('./routes/familyRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
+const nlapiRoutes = require('./routes/nlapiRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/families', familyRoutes);
 app.use('/api/session', sessionRoutes);
+app.use('/api/nlapi', nlapiRoutes);
 
 module.exports = app;

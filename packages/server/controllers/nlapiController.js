@@ -1,4 +1,4 @@
-const fetch = require('node-fetch'); // Ensure you have node-fetch installed
+const fetch = require('node-fetch'); 
 
 const sendNlapiRequest = async (req, res) => {
   const { userInput, context, threadId } = req.body;
