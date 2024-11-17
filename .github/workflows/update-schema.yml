@@ -1,0 +1,38 @@
+name: Update Schema
+
+on:
+  push:
+    branches:
+      # Change this to your specific branches
+      - main
+      - stage-2
+      - stage-3
+      - stage-4
+      - stage-5
+      - stage-6
+      - stage-7
+      - stage-8
+
+jobs:
+  update-schema:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'  # Ensure this matches your Node.js version
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run update-schema script
+      env:
+        NLAPI_DEV_USER: ${{ secrets.NLAPI_DEV_USER }}
+        NLAPI_DEV_PASSWORD: ${{ secrets.NLAPI_DEV_PASSWORD }}
+        NLAPI_SCHEMA_NAME: ${{ secrets.NLAPI_SCHEMA_NAME }}
+        NLAPI_APPLICATION_ID: ${{ secrets.NLAPI_APPLICATION_ID }}
+      run: node scripts/update-schema.mjs

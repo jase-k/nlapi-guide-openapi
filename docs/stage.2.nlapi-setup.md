@@ -44,7 +44,10 @@ TODO: Explain what happened.
 ## Features Added: 
 
 - **NLAPI Integration**: Send user input to the nlapi to interact with your application.
-
+- **Github Action to Auto-Update Schema**: Look at .github/actions to see how you can automate the updates of your schema to the NLAPI
+- **Stream vs Non-Stream**: Added streaming and non-streaming options to show the difference. 
+- **Frontend Signup / Login / Dashboard**: Added some UI to the app to see how this would feel in the UI.
 
 ## Notes: 
-- Your Env should have all the keys the .env.example does. Run `npm run check-env` to check. 
+- Your .env should have all the keys the .env.example does. Run `npm run check-env` to check. 
+- You will also need to add these keys to your github secrets to make the github action work properly.
