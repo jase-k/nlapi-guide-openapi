@@ -16,7 +16,10 @@
     "start-db": "node scripts/start-db.js",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
-    "format": "npm run format --workspaces"
+    "format": "npm run format --workspaces",
+    "check-todos": "grep -r --exclude-dir=node_modules --exclude-dir=.vite 'TODO:' . && echo 'TODOs found, please resolve them before pushing.' && exit 1 || exit 0",
+    "check-env": "node scripts/check-env.js",
+    "setup-nlapi-portal": "node scripts/setup-nlapi-portal.mjs"
   },
   "keywords": [],
   "author": "",
@@ -32,5 +35,9 @@
   "packageManager": "pnpm@9.5.0",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "form-data": "^4.0.1",
+    "node-fetch": "^3.3.2"
+  }
 }
