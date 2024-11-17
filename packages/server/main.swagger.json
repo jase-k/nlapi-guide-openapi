@@ -21,7 +21,9 @@
     "schemas": {
       "Family": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -51,7 +53,9 @@
       },
       "NlapiInput": {
         "type": "object",
-        "required": ["userInput"],
+        "required": [
+          "userInput"
+        ],
         "properties": {
           "userInput": {
             "type": "string",
@@ -78,7 +82,9 @@
         },
         "example": {
           "userInput": "What are the details of my profile?",
-          "context": ["today is October 29, 2024"],
+          "context": [
+            "today is October 29, 2024"
+          ],
           "threadId": "12345",
           "options": {
             "stream": "true"
@@ -254,7 +260,11 @@
       },
       "UserPrivate": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -294,7 +304,10 @@
       },
       "UserRegister": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -322,7 +335,10 @@
       },
       "UserLogin": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -349,7 +365,9 @@
     "/api/families": {
       "get": {
         "summary": "Retrieve a list of families",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "responses": {
           "200": {
             "description": "A list of families",
@@ -373,7 +391,9 @@
     "/api/families/{id}": {
       "get": {
         "summary": "Retrieve a single family by ID",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -408,7 +428,9 @@
     "/api/nlapi": {
       "post": {
         "summary": "Send a request to the NLAPI",
-        "tags": ["no-nlapi"],
+        "tags": [
+          "no-nlapi"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -441,7 +463,10 @@
     "/api/session/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -489,7 +514,10 @@
     "/api/session/login": {
       "post": {
         "summary": "Login a user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -537,7 +565,9 @@
     "/api/users": {
       "get": {
         "summary": "Retrieve a list of users",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "A list of users",
@@ -561,7 +591,9 @@
     "/api/users/search": {
       "get": {
         "summary": "Fuzzy search users by name and email",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -577,7 +609,10 @@
             "name": "searchBy",
             "schema": {
               "type": "string",
-              "enum": ["name", "email"]
+              "enum": [
+                "name",
+                "email"
+              ]
             },
             "required": false,
             "description": "The field to search by (default is name)"
@@ -615,7 +650,9 @@
     "/api/users/profile": {
       "get": {
         "summary": "Get own user information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "User profile information",
@@ -637,7 +674,9 @@
       },
       "put": {
         "summary": "Update profile information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -679,7 +718,9 @@
     "/api/users/{id}": {
       "get": {
         "summary": "Retrieve a single user by ID",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "path",
