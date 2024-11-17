@@ -4,7 +4,7 @@ const familyController = require('../controllers/familyController');
 
 /**
  * @swagger
- * /families:
+ * /api/families:
  *   get:
  *     summary: Retrieve a list of families
  *     tags: [Family]
@@ -20,11 +20,11 @@ const familyController = require('../controllers/familyController');
  *       500:
  *         description: Server error
  */
-router.get('/families', familyController.getAllFamilies);
+router.get('', familyController.getAllFamilies);
 
 /**
  * @swagger
- * /families/{id}:
+ * /api/families/{id}:
  *   get:
  *     summary: Retrieve a single family by ID
  *     tags: [Family]
@@ -44,9 +44,25 @@ router.get('/families', familyController.getAllFamilies);
  *               $ref: '#/components/schemas/Family'
  *       404:
  *         description: Family not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Family not found
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal server error
  */
-router.get('/families/:id', familyController.getFamilyById);
+router.get('/:id', familyController.getFamilyById);
 
 module.exports = router;

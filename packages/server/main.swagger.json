@@ -21,9 +21,7 @@
     "schemas": {
       "Family": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "id": {
             "type": "integer",
@@ -53,11 +51,7 @@
       },
       "User": {
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "properties": {
           "id": {
             "type": "integer",
@@ -97,10 +91,7 @@
       },
       "UserRegister": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "name": {
             "type": "string",
@@ -128,10 +119,7 @@
       },
       "UserLogin": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -155,12 +143,10 @@
     }
   ],
   "paths": {
-    "/families": {
+    "/api/families": {
       "get": {
         "summary": "Retrieve a list of families",
-        "tags": [
-          "Family"
-        ],
+        "tags": ["Family"],
         "responses": {
           "200": {
             "description": "A list of families",
@@ -181,12 +167,10 @@
         }
       }
     },
-    "/families/{id}": {
+    "/api/families/{id}": {
       "get": {
         "summary": "Retrieve a single family by ID",
-        "tags": [
-          "Family"
-        ],
+        "tags": ["Family"],
         "parameters": [
           {
             "in": "path",
@@ -210,10 +194,36 @@
             }
           },
           "404": {
-            "description": "Family not found"
+            "description": "Family not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Family not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Server error"
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -221,10 +231,7 @@
     "/api/session/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": [
-          "Session",
-          "no-nlapi"
-        ],
+        "tags": ["Session", "no-nlapi"],
         "requestBody": {
           "required": true,
           "content": {
@@ -272,10 +279,7 @@
     "/api/session/login": {
       "post": {
         "summary": "Login a user",
-        "tags": [
-          "Session",
-          "no-nlapi"
-        ],
+        "tags": ["Session", "no-nlapi"],
         "requestBody": {
           "required": true,
           "content": {
@@ -323,9 +327,7 @@
     "/users": {
       "get": {
         "summary": "Retrieve a list of users",
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "responses": {
           "200": {
             "description": "A list of users",
@@ -349,9 +351,7 @@
     "/users/{id}": {
       "get": {
         "summary": "Retrieve a single user by ID",
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "in": "path",
@@ -386,9 +386,7 @@
     "/users/search": {
       "get": {
         "summary": "Fuzzy search users by name and email",
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "in": "query",
@@ -426,9 +424,7 @@
     "/users/profile": {
       "get": {
         "summary": "Get own user information",
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "responses": {
           "200": {
             "description": "User profile information",
@@ -450,9 +446,7 @@
       },
       "put": {
         "summary": "Update profile information",
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "requestBody": {
           "required": true,
           "content": {
