@@ -1,8 +1,5 @@
 # Overview
-
-
-# Table of Contents
-
+In this stage we set up the project and add a simple User Authentication with a jwt token.
 
 ## Features Added: 
 
