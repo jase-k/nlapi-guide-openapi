@@ -49,7 +49,28 @@
           "updatedAt": "2023-01-01T00:00:00.000Z"
         }
       },
-      "User": {
+      "UserPublic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Auto-generated ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "familyId": {
+            "type": "integer",
+            "description": "ID of the family the user belongs to"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          }
+        }
+      },
+      "UserPrivate": {
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
@@ -194,36 +215,10 @@
             }
           },
           "404": {
-            "description": "Family not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Family not found"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Family not found"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Internal server error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Server error"
           }
         }
       }
@@ -324,7 +319,7 @@
         }
       }
     },
-    "/users": {
+    "/api/users": {
       "get": {
         "summary": "Retrieve a list of users",
         "tags": ["User"],
@@ -336,7 +331,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/UserPublic"
                   }
                 }
               }
@@ -348,42 +343,7 @@
         }
       }
     },
-    "/users/{id}": {
-      "get": {
-        "summary": "Retrieve a single user by ID",
-        "tags": ["User"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "The user ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A single user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/users/search": {
+    "/api/users/search": {
       "get": {
         "summary": "Fuzzy search users by name and email",
         "tags": ["User"],
@@ -391,11 +351,30 @@
           {
             "in": "query",
             "name": "query",
-            "required": true,
             "schema": {
               "type": "string"
             },
+            "required": true,
             "description": "The search query"
+          },
+          {
+            "in": "query",
+            "name": "searchBy",
+            "schema": {
+              "type": "string",
+              "enum": ["name", "email"]
+            },
+            "required": false,
+            "description": "The field to search by (default is name)"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "The maximum number of results to return (default is 3)"
           }
         ],
         "responses": {
@@ -406,7 +385,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/UserPublic"
                   }
                 }
               }
@@ -414,14 +393,11 @@
           },
           "400": {
             "description": "Bad request"
-          },
-          "500": {
-            "description": "Server error"
           }
         }
       }
     },
-    "/users/profile": {
+    "/api/users/profile": {
       "get": {
         "summary": "Get own user information",
         "tags": ["User"],
@@ -431,12 +407,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserPrivate"
                 }
               }
             }
           },
-          "404": {
+          "400": {
             "description": "User not found"
           },
           "500": {
@@ -471,7 +447,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserPrivate"
                 }
               }
             }
@@ -481,6 +457,38 @@
           },
           "500": {
             "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "summary": "Retrieve a single user by ID",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPublic"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }

@@ -8,7 +8,22 @@ const bcrypt = require('bcrypt');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     UserPublic:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         name:
+ *           type: string
+ *           description: User's name
+ *         familyId:
+ *           type: integer
+ *           description: ID of the family the user belongs to
+ *         email:
+ *           type: string
+ *           description: User's email
+ *     UserPrivate:
  *       type: object
  *       required:
  *         - name

@@ -44,24 +44,8 @@ router.get('', familyController.getAllFamilies);
  *               $ref: '#/components/schemas/Family'
  *       404:
  *         description: Family not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Family not found
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal server error
  */
 router.get('/:id', familyController.getFamilyById);
 
