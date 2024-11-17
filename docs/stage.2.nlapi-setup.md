@@ -56,3 +56,4 @@ TODO: Format doc
 - Your .env should have all the keys the .env.example does. Run `npm run check-env` to check. 
 - You will also need to add these keys to your github secrets to make the github action work properly.
 - Schemas are unique by name to allow you to have multiple schemas in an application in case you want to enable micro services. Note that you the authentication system needs to be the same across the multiple schemas. I.e. the same user authorization data you send the NLAPI should work across all schemas. (More features are coming with schema versioning. For the latest checkout our docs at [nlapi.io](nlapi.io) and/or join our [discord community](https://discord.gg/bcjmGnbj8d))
+- Note in App.jsx where we hide the chat bubble
