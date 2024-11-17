@@ -15,3 +15,5 @@
 ## Notes: 
 - Frontend (FE) React app is in `/client` folder
 - FE is powered by vite (created by `npm create vite@latest . -- --template react`)
+- localhost:5573/api/docs gets you to swagger docs to use api
+- Using different ports to limit the potential of running into other applications 5573, 3303, 5444
