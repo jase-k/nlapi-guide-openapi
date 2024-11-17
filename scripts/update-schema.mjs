@@ -12,6 +12,15 @@ dotenv.config();
 
 const loginUrl = "https://api.nlapi.io/portal/sessions/login";
 
+const requiredEnvVars = ['NLAPI_DEV_USER', 'NLAPI_DEV_PASSWORD', 'NLAPI_SCHEMA_NAME', 'NLAPI_APPLICATION_ID'];
+
+const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
+
+if (missingEnvVars.length > 0) {
+  throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+}
+
+
 const loginAndUploadSchema = async () => {
   const schemaName = process.env.NLAPI_SCHEMA_NAME;
   const swaggerPath = path.join(__dirname, `../packages/server/${schemaName}.swagger.json`);
