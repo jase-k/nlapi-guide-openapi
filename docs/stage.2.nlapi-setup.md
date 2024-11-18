@@ -58,6 +58,7 @@ Save these to your .env file:
         NLAPI_APPLICATION_ID=19
         NLAPI_API_KEY=your-key
 ```
+If you have these environment variables set and run the script again it will skip the application and api key creation and only update the schema. 
 
 If you have these environment variables set and run the script again it will skip the application and api key creation and only update the schema.
 
