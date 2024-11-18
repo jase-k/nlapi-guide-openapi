@@ -10,7 +10,9 @@ For your convience, I've created a script to easily setup your account in the NL
 
 Once this stage is complete, you should have a simple UI and an API that allows you to ask about users, your profile and families in natural language.
 
-TODO: INSERT Photo of overview of architecture. With ngrok, your computer vs internet, etc.
+When done with this stage, you should have a working application with a conversation first design. Because we are using the NLAPI which is an external service that needs to have access to call your local api endpoints we have to use a service called nGrok to route url traffic back to a specific port on your computer. Therefore your development architecture will look like this: 
+![NLAPI Local Architecture](./assets/nlapi-local-architecture.jpg)
+
 
 ## Steps:
 
@@ -57,15 +59,14 @@ If you are only doing local development you will need to either manually send yo
 
 **If you are using this as a template for another repository make note that the `.github/workflows/update-schema.yml` file only runs on specified branches so you will need to adjust to meet your development needs.*
 
+**4. Confirm everything is working** by seeding your database with `npm run seed`. Then go to localhost:5573 and login with bugs.bunny@example.com pw: CarrotLover123 | Once logged in you should see a chat bubble. Type 'what is my profile information' You should see a response in a few seconds giving basic information of Bugs Bunny. In your terminal you should see the output of the NLAPI. 
 
-TODO: finish steps
-TODO: Format doc
+**5. Checkout out stage-3** to add more endpoints, add streaming and more. 
 
 ## Features Added:
 
 - **NLAPI Integration**: Send user input to the nlapi to interact with your application.
 - **Github Action to Auto-Update Schema**: Look at .github/actions to see how you can automate the updates of your schema to the NLAPI
-- **Stream vs Non-Stream**: Added streaming and non-streaming options to show the difference.
 - **Frontend Signup / Login / Dashboard**: Added some UI to the app to see how this would feel in the UI.
 
 ## Notes:
@@ -74,8 +75,9 @@ TODO: Format doc
 - You will also need to add these keys to your github secrets to make the github action work properly.
 - Schemas are unique by name to allow you to have multiple schemas in an application in case you want to enable micro services. Note that you the authentication system needs to be the same across the multiple schemas. I.e. the same user authorization data you send the NLAPI should work across all schemas. (More features are coming with schema versioning. For the latest checkout our docs at [nlapi.io](nlapi.io) and/or join our [discord community](https://discord.gg/bcjmGnbj8d))
 - Note in App.jsx where we hide the chat bubble
-- Keep in mind the thread ID is how you keep a conversation going. Up to the developer to save those for now.
-- TODO: Add ngrok to the npm run dev command
+- Keep in mind the thread ID is how you keep a conversation going. Up to the developer to save those for now. ThreadId is saved to state in [ChatBubble.jsx](/packages/client/src/components/ChatBubble.jsx). 
+- nGrok config is now in the `npm run command` If you'd rather run `ngrok http --url your-url 5573` You'll need to remove it from the dev command
+- Seed your db with the command `npm run seed` 
 
 
 ## Common Errors:
