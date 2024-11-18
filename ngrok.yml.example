@@ -1,0 +1,9 @@
+version: "3"
+agent:
+    authtoken: find your authtoken from your default ngrok location: https://ngrok.com/docs/agent/config/
+
+endpoints:
+  - name: nlapi-tunnel
+    url: https://quick-notable-duck.ngrok-free.app
+    upstream:
+        url: 5573

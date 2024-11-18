@@ -14,12 +14,12 @@ TODO: INSERT Photo of overview of architecture. With ngrok, your computer vs int
 
 ## Steps:
 
-1. Setup ngrok
-   I'd recommend getting a permanent url (free) so you do not have to keep adjusting the url that is sent to the NLAPI.
-2. Setup NLAPI Account
-   2.a Set these env vars: `NLAPI_DEV_USER` && `NLAPI_DEV_PASSWORD` in your .env
-   if you do not have an account.
-   Create one either with this curl command (replace your username and password) and save your user and password to the .env file with the variable above. Or go to [api.nlapi.io/docs](https://api.nlapi.io/docs#/Portal/signup_user_portal_sessions_signup_post) and use the /portal/sessions/signup swagger ui to create an account.
+**1. Setup ngrok**
+   I'd recommend getting a permanent url (free) so you do not have to keep adjusting the url that is sent to the NLAPI. If you create a free url, add it to your env file as `NGROK_URL`
+
+**2. Setup NLAPI Account**
+   **2.a** Set these env vars: `NLAPI_DEV_USER` && `NLAPI_DEV_PASSWORD` in your .env
+   If you do not have an account create one either with the curl command below (replace your username and password) and save your user and password to the .env file with the variables above. Or go to [api.nlapi.io/docs](https://api.nlapi.io/docs#/Portal/signup_user_portal_sessions_signup_post) and use the /portal/sessions/signup swagger ui to create an account.
 
 ```bash
 curl -X 'POST' \
@@ -33,18 +33,30 @@ curl -X 'POST' \
 }'
 ```
 
-2.b Run `npm setup-nlapi` to create an application and api-key.
-\*NOTE: If you don't have your NLAPI_SCHEMA_NAME.swagger.json file generated, this script will fail. Run `npm run dev` will automatically create and/or update it.
+**2.b** Run `setup-nlapi-portal` to create an application and api-key.
+*NOTE: If you don't have your NLAPI_SCHEMA_NAME.swagger.json file generated, this script will fail. Run `npm run dev` will automatically create and/or update it.*
 You should get an output similar to this:
-
+```bash
+Schema uploaded: { message: 'Schema already exists.' }
+API Key created: { api_key: 'your-key' }
+Save these to your .env file:
+        NLAPI_APPLICATION_ID=19
+        NLAPI_API_KEY=your-key
 ```
-TODO: Make output
-```
+If you have these environment variables set and run the script again it will skip the application and api key creation and only update the schema. 
 
-2.c Save the `NLAPI_API_KEY` && `NLAPI_APPLICATION_ID` to your .env
+*2.c* Make sure to save the `NLAPI_API_KEY` && `NLAPI_APPLICATION_ID` to your .env from step 2.b.
 
-3. Save 'NLAPI_DEV_USER', 'NLAPI_DEV_PASSWORD', 'NLAPI_SCHEMA_NAME', 'NLAPI_APPLICATION_ID' to your github repository secrets.
-   This will enable automatically sending your openapi spec to the NLAPI when pushing updates so the NLAPI always has the latest schema of your application. (some extra versioning features are coming soon; But for now, if you upload a schema with the same name as a previously uploaded schema, it will **replace** that schema. If you upload a schema with a different name, it will **add** to the current latest schemas to allow you to upload multiple schemas to one NLAPI application.)
+**3. Set Up Github Repository Secrets**
+This step is neccessary for deployments.
+
+Save `NLAPI_DEV_USER`, `NLAPI_DEV_PASSWORD`, `NLAPI_SCHEMA_NAME`, `NLAPI_APPLICATION_ID` to your github repository secrets.
+This will enable automatically sending your openapi spec to the NLAPI when pushing updates so the NLAPI always has the latest schema of your application. (some extra versioning features are coming soon; But for now, if you upload a schema with the same name as a previously uploaded schema, it will **replace** that schema. If you upload a schema with a different name, it will **add** to the current latest schemas to allow you to upload multiple schemas to one NLAPI application.)
+
+If you are only doing local development you will need to either manually send your openapi schema to the NLAPI each time you make a change to the routes.  
+
+**If you are using this as a template for another repository make note that the `.github/workflows/update-schema.yml` file only runs on specified branches so you will need to adjust to meet your development needs.*
+
 
 TODO: finish steps
 TODO: Format doc
@@ -64,3 +76,35 @@ TODO: Format doc
 - Note in App.jsx where we hide the chat bubble
 - Keep in mind the thread ID is how you keep a conversation going. Up to the developer to save those for now.
 - TODO: Add ngrok to the npm run dev command
+
+
+## Common Errors:
+**ngrok authentication failed**. 
+If you get an error like this: 
+```
+[dev:ngrok ] ERROR:  authentication failed: The authtoken you specified is properly formed, but it is invalid.
+[dev:ngrok ] ERROR:  Your authtoken: 2o01B85i3zkRdCSadIHu5ZGoEe_8BaNUmXdoNqhoe3qumii
+[dev:ngrok ] ERROR:  This usually happens when:
+[dev:ngrok ] ERROR:      - You reset your authtoken
+[dev:ngrok ] ERROR:      - Your authtoken was for a team account that you were removed from
+[dev:ngrok ] ERROR:      - You are using ngrok link and this credential was explicitly revoked
+[dev:ngrok ] ERROR:  Go to your ngrok dashboard and double check that your authtoken is correct:
+[dev:ngrok ] ERROR:  https://dashboard.ngrok.com/get-started/your-authtoken
+[dev:ngrok ] ERROR:  
+[dev:ngrok ] ERROR:  ERR_NGROK_107
+[dev:ngrok ] ERROR:  https://ngrok.com/docs/errors/err_ngrok_107
+[dev:ngrok ] ERROR:  
+```
+It's likely you did not set your ngrok authentication token correctly in your ngrok.yml file. 
+
+Once you have ngrok downloaded on your computer you should be able to find the authentication token from any of these files: For the main operating systems we support, their default file locations are:
+```
+Linux: ~/.config/ngrok/ngrok.yml
+MacOS (Darwin): ~/Library/Application Support/ngrok/ngrok.yml
+Windows: "%HOMEPATH%\AppData\Local\ngrok\ngrok.yml"
+```
+
+**Error reading configuration file 'ngrok.yml': open /home/jase/Apps/nlapi-guide-openapi/ngrok.yml: no such file or directory**
+If you are getting this error, it means you have not set your ngrok.yml file (this is gitignored because it contains your auth token) You can copy the ngrok.yml.example file and then set your authentication token properly with the instructions in the above answer.
+
+Another possibility is you named your file .yaml instead of .yml
