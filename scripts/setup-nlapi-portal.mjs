@@ -110,9 +110,9 @@ async function createApiKey(applicationId, accessToken) {
     }
     await uploadSchema(applicationId, accessToken);
     let apiKey;
-    if (process.env.API_KEY) {
+    if (process.env.NLAPI_API_KEY) {
       console.log('API Key already exists, skipping creation');
-      apiKey = process.env.API_KEY;
+      apiKey = process.env.NLAPI_API_KEY;
     } else {
       apiKey = await createApiKey(applicationId, accessToken);
     }
