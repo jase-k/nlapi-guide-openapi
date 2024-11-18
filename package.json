@@ -18,7 +18,7 @@
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
     "format": "npm run format --workspaces",
-    "check-todos": "grep -r --exclude-dir=node_modules --exclude-dir=.vite 'TODO:' . && echo 'TODOs found, please resolve them before pushing.' && exit 1 || exit 0",
+    "check-todos": "grep -r --exclude-dir=node_modules --exclude-dir=.vite --exclude=package.json 'TODO:' . && echo 'TODOs found, please resolve them before pushing.' && exit 1 ||  echo 'No TODOs found'",
     "check-env": "node scripts/check-env.js",
     "setup-nlapi-portal": "node scripts/setup-nlapi-portal.mjs"
   },
