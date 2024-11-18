@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     padding: theme.spacing(4),
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    alignSelf: 'center',
   },
 }));
 
