@@ -14,13 +14,14 @@ import {
   Send as SendIcon,
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
+import ReactMarkdown from 'react-markdown';
 
 const ChatContainer = styled(Paper)(({ theme }) => ({
   position: 'fixed',
   bottom: theme.spacing(2),
   right: theme.spacing(2),
-  width: 420,
-  height: 400,
+  width: '90%', // Default width for smaller screens
+  height: '60vh',
   display: 'flex',
   flexDirection: 'column',
   overflow: 'hidden',
@@ -39,6 +40,19 @@ const ChatMessages = styled('div')(({ theme }) => ({
   flexGrow: 1,
   padding: theme.spacing(2),
   overflowY: 'auto',
+  fontSize: '1.2rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+}));
+
+const MessageBubble = styled('div')(({ theme, isSender }) => ({
+  maxWidth: '70%',
+  padding: theme.spacing(1),
+  borderRadius: theme.spacing(2),
+  backgroundColor: isSender ? theme.palette.primary.main : theme.palette.grey[300],
+  color: isSender ? theme.palette.primary.contrastText : theme.palette.text.primary,
+  alignSelf: isSender ? 'flex-end' : 'flex-start',
 }));
 
 const ChatInput = styled('form')(({ theme }) => ({
@@ -102,8 +116,10 @@ export default function Component() {
           aria-label="chat"
           style={{
             position: 'fixed',
-            bottom: 16,
-            right: 16,
+            bottom: 36,
+            right: 36,
+            height: 80,
+            width: 80,
           }}
           onClick={() => setIsExpanded(true)}
         >
@@ -129,16 +145,9 @@ export default function Component() {
           </ChatHeader>
           <ChatMessages>
             {messages.map((msg, index) => (
-              <div key={index}>
-                <Typography
-                  variant="body2"
-                  color={
-                    msg.speaker === 'bot' ? 'textSecondary' : 'textPrimary'
-                  }
-                >
-                  {msg.speaker}: {msg.content}
-                </Typography>
-              </div>
+              <MessageBubble key={index} isSender={msg.speaker === 'human'}>
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              </MessageBubble>
             ))}
           </ChatMessages>
           <ChatInput onSubmit={handleSubmit}>
