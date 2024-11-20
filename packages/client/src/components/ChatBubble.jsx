@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { styled } from '@mui/material/styles';
 import {
   Fab,
@@ -96,9 +96,9 @@ export default function Component() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, statusMessage]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     const newMessage = {
       content: message,
@@ -116,49 +116,15 @@ export default function Component() {
         },
       };
       try {
-        const response = await fetch('/api/nlapi', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-          body: JSON.stringify(body),
-        });
-        if (!response.ok) {
-          console.log('Response from NLAPI:', response);
-          throw new Error('Failed to send message to NLAPI');
-        }
+        const response = await handleSendingMessage(body);
         
         let thread_id;
         if (isStreaming) {
           const reader = response.body?.pipeThrough(new TextDecoderStream())?.pipeThrough(new EventSourceParserStream());
-          let last_message = '';
-          let last_chunk_event = 'start';
-          for await (const chunk of reader) {
-            const chunk_event_data = JSON.parse(chunk.data);
-            console.log('Chunk Event Data:', chunk_event_data);
-            if (chunk.event === "status_message") {
-              // Note if you wanted to customize the status message you could use a switch statement or mapping logichere to transform the status message. 
-              setStatusMessage(chunk_event_data.content);
-            } else {
-              setStatusMessage('');
-            }
-
-            if (chunk.event === "message_chunk") {
-              last_message += chunk_event_data.content;
-              if (last_chunk_event !== 'message_chunk') {
-                setMessages((prevMessages) => [...prevMessages, {content: last_message, speaker: 'assistant'}]);
-              } else {
-                setMessages((prevMessages) => [...prevMessages.slice(0, -1), {content: last_message, speaker: 'assistant'}]);
-              }
-            } else if (chunk.event === "close") {
-              thread_id = chunk_event_data.thread_id;
-            }
-            last_chunk_event = chunk.event;
-          }
+          thread_id = await handleStreamingEvents(reader);
         } else {
           const data = await response.json();
-          console.log('Response from NLAPI:', data);
+          console.log('Non-Streaming Response from NLAPI:', data);
           setMessages(data.messages.reverse());
           thread_id = data.thread_id;
         }
@@ -170,6 +136,60 @@ export default function Component() {
     };
 
     sendMessage();
+  }, [message, isStreaming, threadId]);
+
+  const handleSendingMessage = async (body) => {
+      const response = await fetch('/api/nlapi', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      console.error('Response from NLAPI:', response);
+      alert('Failed to send message');
+    }
+    return response
+  };
+
+  const handleStreamingEvents = async (reader) => {
+    let lastMessage = '';
+    let lastChunkEvent = 'start';
+    let threadId;
+
+    const updateMessages = (content, isNewMessage) => {
+      setMessages((prevMessages) => {
+        const updatedMessages = isNewMessage
+          ? [...prevMessages, { content, speaker: 'assistant' }]
+          : [...prevMessages.slice(0, -1), { content, speaker: 'assistant' }];
+        return updatedMessages;
+      });
+    };
+
+    for await (const chunk of reader) {
+      const { event, data } = chunk;
+      const chunkEventData = JSON.parse(data);
+      console.log('Chunk Event Data:', chunkEventData);
+
+      if (event === "status_message") {
+        setStatusMessage(chunkEventData.content);
+      } else {
+        setStatusMessage('');
+      }
+
+      if (event === "message_chunk") {
+        lastMessage += chunkEventData.content;
+        updateMessages(lastMessage, lastChunkEvent !== 'message_chunk');
+      } else if (event === "close") {
+        threadId = chunkEventData.thread_id;
+      }
+
+      lastChunkEvent = event;
+    }
+
+    return threadId;
   };
 
   return (
