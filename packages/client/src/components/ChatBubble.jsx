@@ -199,6 +199,7 @@ export default function Component() {
 
   return (
     <>
+
       <Grow in={!isExpanded}>
         <Fab
           color="primary"
