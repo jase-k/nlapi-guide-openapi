@@ -67,10 +67,28 @@ const ChatInput = styled('form')(({ theme }) => ({
   borderTop: `1px solid ${theme.palette.divider}`,
 }));
 
+const StatusMessage = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1),
+  color: theme.palette.text.secondary,
+  alignSelf: 'left',
+  fontStyle: 'italic',
+  '&::after': {
+    content: '"..."',
+    animation: 'ellipsis 1s infinite',
+  },
+  '@keyframes ellipsis': {
+    '0%': { content: '"."' },
+    '33%': { content: '".."' },
+    '66%': { content: '"..."' },
+    '100%': { content: '"."' },
+  },
+}));
+
 export default function Component() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [statusMessage, setStatusMessage] = useState('');
   const [threadId, setThreadId] = useState(null);
   const [isStreaming, setIsStreaming] = useState(false);
 
@@ -120,8 +138,13 @@ export default function Component() {
             const chunk_event_data = JSON.parse(chunk.data);
             console.log('Chunk Event Data:', chunk_event_data);
             if (chunk.event === "status_message") {
-              // TODO: Display status message
-            } else if (chunk.event === "message_chunk") {
+              // Note if you wanted to customize the status message you could use a switch statement or mapping logichere to transform the status message. 
+              setStatusMessage(chunk_event_data.content);
+            } else {
+              setStatusMessage('');
+            }
+
+            if (chunk.event === "message_chunk") {
               last_message += chunk_event_data.content;
               if (last_chunk_event !== 'message_chunk') {
                 setMessages((prevMessages) => [...prevMessages, {content: last_message, speaker: 'assistant'}]);
@@ -202,6 +225,7 @@ export default function Component() {
                 <ReactMarkdown>{msg.content}</ReactMarkdown>
               </MessageBubble>
             ))}
+            {statusMessage && <StatusMessage>{statusMessage}</StatusMessage>}
             <div ref={messagesEndRef} />
           </ChatMessages>
           <ChatInput onSubmit={handleSubmit}>
