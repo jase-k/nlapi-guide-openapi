@@ -5,28 +5,28 @@ const sequelize = require('../config/database');
  * @swagger
  * components:
  *   schemas:
- *     RecipeInput:
+ *     RecipeCreate:
  *       type: object
  *       required:
  *         - title
- *         - ingredients
  *         - instructions
  *       properties:
  *         title:
  *           type: string
- *           description: Title of the recipe
  *         instructions:
  *           type: string
- *         recipeIngredients:
- *           type: array
- *           description: Ingredients required for the recipe
- *           items:
- *            oneOf:
- *              - $ref: '#/components/schemas/RecipeIngredientInputCreateIngredient'
- *              - $ref: '#/components/schemas/RecipeIngredientInput'
  *       example:
  *         title: Spaghetti Bolognese
- *         recipeIngredients: [{ingredientId: 1, quantity: 2, unitOfMeasure: "cups"}, {ingredient_name: Tomato, quantity: 200, unitOfMeasure: "grams"}]
+ *         instructions: Cook spaghetti, prepare sauce, mix together
+ *     RecipeUpdate:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *         instructions:
+ *           type: string
+ *       example:
+ *         title: Spaghetti Bolognese
  *         instructions: Cook spaghetti, prepare sauce, mix together
  *     Recipe:
  *       type: object
