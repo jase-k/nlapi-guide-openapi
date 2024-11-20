@@ -51,6 +51,54 @@
           "updatedAt": "2023-01-01T00:00:00.000Z"
         }
       },
+      "Ingredient": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Auto-generated ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ingredient"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of creation",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of last update",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "id": 1,
+          "name": "Tomato",
+          "createdAt": "2024-01-01T00:00:00.000Z",
+          "updatedAt": "2024-01-01T00:00:00.000Z"
+        }
+      },
+      "IngredientInput": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the ingredient"
+          }
+        },
+        "example": {
+          "name": "Tomato"
+        }
+      },
       "NlapiInput": {
         "type": "object",
         "required": [
@@ -235,6 +283,281 @@
               "processing_time": 0.27483630180358887
             }
           ]
+        }
+      },
+      "RecipeInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "ingredients",
+          "instructions"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the recipe"
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "recipeIngredients": {
+            "type": "array",
+            "description": "Ingredients required for the recipe",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RecipeIngredientInputCreateIngredient"
+                },
+                {
+                  "$ref": "#/components/schemas/RecipeIngredientInput"
+                }
+              ]
+            }
+          }
+        },
+        "example": {
+          "title": "Spaghetti Bolognese",
+          "recipeIngredients": [
+            {
+              "ingredientId": 1,
+              "quantity": 2,
+              "unitOfMeasure": "cups"
+            },
+            {
+              "ingredient_name": "Tomato",
+              "quantity": 200,
+              "unitOfMeasure": "grams"
+            }
+          ],
+          "instructions": "Cook spaghetti, prepare sauce, mix together"
+        }
+      },
+      "Recipe": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Auto-generated ID"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the recipe"
+          },
+          "instructions": {
+            "type": "string",
+            "description": "Cooking instructions"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of creation",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of last update",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "id": 1,
+          "title": "Spaghetti Bolognese",
+          "instructions": "Cook spaghetti, prepare sauce, mix together",
+          "createdAt": "2024-01-01T00:00:00.000Z",
+          "updatedAt": "2024-01-01T00:00:00.000Z"
+        }
+      },
+      "RecipeFull": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Auto-generated ID"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the recipe"
+          },
+          "recipeIngredients": {
+            "type": "array",
+            "description": "Ingredients required for the recipe",
+            "items": {
+              "$ref": "#/components/schemas/RecipeIngredient"
+            }
+          },
+          "instructions": {
+            "type": "string",
+            "description": "Cooking instructions"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of creation",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of last update",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "id": 1,
+          "title": "Spaghetti Bolognese",
+          "recipeIngredients": [
+            {
+              "id": 1,
+              "ingredient": {
+                "id": 1,
+                "name": "Tomato",
+                "createdAt": "2024-01-01T00:00:00.000Z",
+                "updatedAt": "2024-01-01T00:00:00.000Z"
+              },
+              "ingredientId": 1,
+              "quantity": 200,
+              "unitOfMeasure": "grams",
+              "createdAt": "2024-01-01T00:00:00.000Z",
+              "updatedAt": "2024-01-01T00:00:00.000Z"
+            },
+            {
+              "id": 2,
+              "ingredient": {
+                "id": 2,
+                "name": "Spaghetti",
+                "createdAt": "2024-01-01T00:00:00.000Z",
+                "updatedAt": "2024-01-01T00:00:00.000Z"
+              },
+              "ingredientId": 2,
+              "quantity": 1,
+              "unitOfMeasure": "cups",
+              "createdAt": "2024-01-01T00:00:00.000Z",
+              "updatedAt": "2024-01-01T00:00:00.000Z"
+            }
+          ],
+          "instructions": "Cook spaghetti, prepare sauce, mix together"
+        }
+      },
+      "RecipeIngredientInputCreateIngredient": {
+        "type": "object",
+        "required": [
+          "recipeId",
+          "ingredient_name",
+          "quantity",
+          "unitOfMeasure"
+        ],
+        "properties": {
+          "recipeId": {
+            "type": "integer",
+            "description": "ID of the recipe"
+          },
+          "ingredient_name": {
+            "type": "string",
+            "description": "Name of the ingredient"
+          },
+          "quantity": {
+            "type": "float",
+            "description": "Quantity of the ingredient in the recipe"
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "description": "Unit of measure for the ingredient"
+          }
+        },
+        "example": {
+          "ingredient_name": "Tomato",
+          "quantity": 200,
+          "unitOfMeasure": "grams"
+        }
+      },
+      "RecipeIngredientInput": {
+        "type": "object",
+        "required": [
+          "recipeId",
+          "ingredientId",
+          "quantity",
+          "unitOfMeasure"
+        ],
+        "properties": {
+          "recipeId": {
+            "type": "integer",
+            "description": "ID of the recipe"
+          },
+          "ingredientId": {
+            "type": "integer",
+            "description": "ID of the ingredient"
+          },
+          "quantity": {
+            "type": "float",
+            "description": "Quantity of the ingredient in the recipe"
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "description": "Unit of measure for the ingredient"
+          }
+        },
+        "example": {
+          "ingredientId": 1,
+          "quantity": 200,
+          "unitOfMeasure": "grams"
+        }
+      },
+      "RecipeIngredient": {
+        "type": "object",
+        "required": [
+          "ingredient",
+          "quantity",
+          "unitOfMeasure",
+          "recipeId"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "string",
+            "description": "Quantity of the ingredient in the recipe"
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "description": "Unit of measure for the ingredient"
+          },
+          "ingredient": {
+            "$ref": "#/components/schemas/Ingredient"
+          },
+          "recipeId": {
+            "type": "integer",
+            "description": "ID of the recipe"
+          },
+          "ingredientId": {
+            "type": "integer",
+            "description": "ID of the ingredient"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of creation",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of last update",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "quantity": 200,
+          "unitOfMeasure": "g",
+          "ingredient": {
+            "id": 1,
+            "name": "Tomato"
+          },
+          "recipeId": 1
         }
       },
       "UserPublic": {
@@ -425,6 +748,127 @@
         }
       }
     },
+    "/api/ingredients": {
+      "post": {
+        "summary": "Create a new ingredient",
+        "tags": [
+          "Ingredients"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngredientInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ingredient created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ingredient"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all ingredients",
+        "tags": [
+          "Ingredients"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Ingredient objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ingredient"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ingredients/search": {
+      "get": {
+        "summary": "Search ingredients",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The search query"
+          },
+          {
+            "in": "query",
+            "name": "searchBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name"
+              ]
+            },
+            "description": "The field to search by (default is 'name')"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 3
+            },
+            "description": "The maximum number of results to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of matching Ingredient objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ingredient"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid searchBy parameter"
+          },
+          "500": {
+            "description": "Failed to search ingredients"
+          }
+        }
+      }
+    },
     "/api/nlapi": {
       "post": {
         "summary": "Send a request to the NLAPI",
@@ -453,6 +897,210 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/NlapiOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes": {
+      "post": {
+        "summary": "Create a new recipe",
+        "tags": [
+          "Recipes"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recipe created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all recipes. Doesn't include ingredients. To get the recipe with ingredients, use /api/recipes/{id}",
+        "tags": [
+          "Recipes"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Recipe objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recipe"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes/{id}": {
+      "get": {
+        "summary": "Get a single recipe by ID",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The recipe ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single Recipe object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeFull"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a recipe",
+        "tags": [
+          "Recipes"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The recipe ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recipe updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a recipe",
+        "tags": [
+          "Recipes"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The recipe ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Recipe deleted successfully"
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      }
+    },
+    "/api/recipes/search": {
+      "get": {
+        "summary": "Search recipes",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The search query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Recipe objects matching the search query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recipe"
+                  }
                 }
               }
             }
@@ -751,6 +1399,14 @@
     }
   },
   "tags": [
+    {
+      "name": "Ingredients",
+      "description": "Ingredient management"
+    },
+    {
+      "name": "Recipes",
+      "description": "Recipe management"
+    },
     {
       "name": "no-nlapi",
       "description": "Ignored by the NLAPI"

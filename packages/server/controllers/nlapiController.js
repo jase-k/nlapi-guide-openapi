@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const { PassThrough } = require('stream');
 
-
 const sendNlapiRequest = async (req, res) => {
   const { userInput, context, threadId } = req.body;
   const authToken = req.headers.authorization.split(' ')[1];
