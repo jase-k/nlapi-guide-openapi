@@ -16,7 +16,7 @@ In this step we will add streaming capabilities from the NLAPI as well as more f
 
 ## Notes:
 - Scroll to bottom Behavior explanation (Comment out `<div ref={messagesEndRef} />` in ChatBubble.jsx and ask the bot a few follow up questions to understand why it's important)
-- TODO: Add status messages
+- Displays status messages, you can map responses if needed. 
 - TODO: Finish endpoints
 - TODO: Add Architecture Design Photo
 
