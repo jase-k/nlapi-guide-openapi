@@ -7,7 +7,7 @@ import {
   IconButton,
   Typography,
   Grow,
-  Button
+  Button,
 } from '@mui/material';
 import {
   Chat as ChatIcon,
@@ -98,45 +98,50 @@ export default function Component() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, statusMessage]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    const newMessage = {
-      content: message,
-      speaker: 'human',
-    };
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-    setMessage('');
-
-    const sendMessage = async () => {
-      let body = {
-        userInput: message,
-        threadId: threadId,
-        options: {
-          stream: isStreaming,
-        },
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const newMessage = {
+        content: message,
+        speaker: 'human',
       };
-      try {
-        const response = await handleSendingMessage(body);
-        
-        let thread_id;
-        if (isStreaming) {
-          const reader = response.body?.pipeThrough(new TextDecoderStream())?.pipeThrough(new EventSourceParserStream());
-          thread_id = await handleStreamingEvents(reader);
-        } else {
-          const data = await response.json();
-          console.log('Non-Streaming Response from NLAPI:', data);
-          setMessages(data.messages.reverse());
-          thread_id = data.thread_id;
-        }
-        // Set the thread id to the thread id from the response regardless of streaming or not
-        setThreadId(thread_id);
-      } catch (error) {
-        console.error('Error sending message to NLAPI:', error);
-      }
-    };
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMessage('');
 
-    sendMessage();
-  }, [message, isStreaming, threadId]);
+      const sendMessage = async () => {
+        let body = {
+          userInput: message,
+          threadId: threadId,
+          options: {
+            stream: isStreaming,
+          },
+        };
+        try {
+          const response = await handleSendingMessage(body);
+
+          let thread_id;
+          if (isStreaming) {
+            const reader = response.body
+              ?.pipeThrough(new TextDecoderStream())
+              ?.pipeThrough(new EventSourceParserStream());
+            thread_id = await handleStreamingEvents(reader);
+          } else {
+            const data = await response.json();
+            console.log('Non-Streaming Response from NLAPI:', data);
+            setMessages(data.messages.reverse());
+            thread_id = data.thread_id;
+          }
+          // Set the thread id to the thread id from the response regardless of streaming or not
+          setThreadId(thread_id);
+        } catch (error) {
+          console.error('Error sending message to NLAPI:', error);
+        }
+      };
+
+      sendMessage();
+    },
+    [message, isStreaming, threadId]
+  );
 
   const handleSendingMessage = async (body) => {
       const response = await fetch('/api/nlapi', {
@@ -151,7 +156,7 @@ export default function Component() {
       console.error('Response from NLAPI:', response);
       alert('Failed to send message');
     }
-    return response
+    return response;
   };
 
   const handleStreamingEvents = async (reader) => {
@@ -173,16 +178,16 @@ export default function Component() {
       const chunkEventData = JSON.parse(data);
       console.log('Chunk Event Data:', chunkEventData);
 
-      if (event === "status_message") {
+      if (event === 'status_message') {
         setStatusMessage(chunkEventData.content);
       } else {
         setStatusMessage('');
       }
 
-      if (event === "message_chunk") {
+      if (event === 'message_chunk') {
         lastMessage += chunkEventData.content;
         updateMessages(lastMessage, lastChunkEvent !== 'message_chunk');
-      } else if (event === "close") {
+      } else if (event === 'close') {
         threadId = chunkEventData.thread_id;
       }
 
@@ -194,7 +199,6 @@ export default function Component() {
 
   return (
     <>
-
       <Grow in={!isExpanded}>
         <Fab
           color="primary"
