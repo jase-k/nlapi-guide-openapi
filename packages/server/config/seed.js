@@ -1,5 +1,11 @@
 const sequelize = require('./database');
-const { User, Family } = require('../models');
+const {
+  User,
+  Family,
+  Ingredient,
+  Recipe,
+  RecipeIngredient,
+} = require('../models');
 
 async function seedDatabase() {
   try {
@@ -63,6 +69,117 @@ async function seedDatabase() {
         defaults: user,
       });
     }
+    // Create ingredients
+    const ingredients = await Ingredient.bulkCreate([
+      { name: 'Tomato' },
+      { name: 'Spaghetti' },
+      { name: 'Ground Beef' },
+      { name: 'Onion' },
+      { name: 'Garlic' },
+      { name: 'Olive Oil' },
+      { name: 'Salt' },
+      { name: 'Pepper' },
+    ]);
+
+    // Create recipes
+    const recipes = await Recipe.bulkCreate([
+      {
+        title: 'Spaghetti Bolognese',
+        instructions: 'Cook spaghetti, prepare sauce, mix together',
+      },
+      {
+        title: 'Tomato Soup',
+        instructions: 'Cook tomatoes, blend, season, and serve',
+      },
+    ]);
+
+    // Create recipe ingredients
+    await RecipeIngredient.bulkCreate([
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[0].id,
+        quantity: 200,
+        unitOfMeasure: 'grams',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[1].id,
+        quantity: 100,
+        unitOfMeasure: 'grams',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[2].id,
+        quantity: 300,
+        unitOfMeasure: 'grams',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[3].id,
+        quantity: 1,
+        unitOfMeasure: 'piece',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[4].id,
+        quantity: 2,
+        unitOfMeasure: 'cloves',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[5].id,
+        quantity: 2,
+        unitOfMeasure: 'tablespoons',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[6].id,
+        quantity: 1,
+        unitOfMeasure: 'teaspoon',
+      },
+      {
+        recipeId: recipes[0].id,
+        ingredientId: ingredients[7].id,
+        quantity: 1,
+        unitOfMeasure: 'teaspoon',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[0].id,
+        quantity: 500,
+        unitOfMeasure: 'grams',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[3].id,
+        quantity: 1,
+        unitOfMeasure: 'piece',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[4].id,
+        quantity: 2,
+        unitOfMeasure: 'cloves',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[5].id,
+        quantity: 1,
+        unitOfMeasure: 'tablespoon',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[6].id,
+        quantity: 1,
+        unitOfMeasure: 'teaspoon',
+      },
+      {
+        recipeId: recipes[1].id,
+        ingredientId: ingredients[7].id,
+        quantity: 1,
+        unitOfMeasure: 'teaspoon',
+      },
+    ]);
 
     console.log('Seeding successful!');
   } catch (error) {

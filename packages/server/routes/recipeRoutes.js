@@ -23,7 +23,7 @@ const authenticateToken = require('../middlewares/authenticate');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RecipeInput'
+ *             $ref: '#/components/schemas/RecipeCreate'
  *     responses:
  *       201:
  *         description: Recipe created successfully
@@ -40,19 +40,67 @@ router.post('/', authenticateToken, recipeController.createRecipe);
  * @swagger
  * /api/recipes:
  *   get:
- *     summary: Get all recipes. Doesn't include ingredients. To get the recipe with ingredients, use /api/recipes/{id}
+ *     summary: Get all recipes with pagination.
  *     tags: [Recipes]
  *     responses:
  *       200:
- *         description: A list of Recipe objects
+ *         description: A list of Recipe objects with pagination details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalItems:
+ *                   type: integer
+ *                   example: 1
+ *                 currentOffset:
+ *                   type: integer
+ *                   example: 0
+ *                 recipes:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/RecipeFull'
+ */
+router.get('/', recipeController.getAllRecipes);
+
+/**
+ * @swagger
+ * /api/recipes/search:
+ *   get:
+ *     summary: Search recipes by title
+ *     tags: [Recipes]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The search query
+ *       - in: query
+ *         name: searchBy
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [title]
+ *         description: The field to search by (default is 'title')
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 3
+ *         description: The maximum number of results to return
+ *     responses:
+ *       200:
+ *         description: A list of Recipe objects matching the search query
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Recipe'
+ *                 $ref: '#/components/schemas/RecipeFull'
  */
-router.get('/', recipeController.getAllRecipes);
+router.get('/search', recipeController.searchRecipes);
 
 /**
  * @swagger
@@ -99,7 +147,7 @@ router.get('/:id', recipeController.getRecipeById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RecipeInput'
+ *             $ref: '#/components/schemas/RecipeUpdate'
  *     responses:
  *       200:
  *         description: Recipe updated successfully
@@ -134,30 +182,5 @@ router.put('/:id', authenticateToken, recipeController.updateRecipe);
  *         description: Recipe not found
  */
 router.delete('/:id', authenticateToken, recipeController.deleteRecipe);
-
-/**
- * @swagger
- * /api/recipes/search:
- *   get:
- *     summary: Search recipes
- *     tags: [Recipes]
- *     parameters:
- *       - in: query
- *         name: query
- *         required: true
- *         schema:
- *           type: string
- *         description: The search query
- *     responses:
- *       200:
- *         description: A list of Recipe objects matching the search query
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Recipe'
- */
-router.get('/search', recipeController.searchRecipes);
 
 module.exports = router;
