@@ -4,7 +4,7 @@ In this stage we set up the project and add a simple User Authentication with a 
 ## Steps
 1. Make sure Docker and Node are both installed properly. Node version 20.9 is what I used to create this. 
 2. Copy .env.example to .env
-3. `npm run dev`
+3. `npm install && npm run dev`
 This will start a docker container called `pg` on port 5444 with postgres and the extension tgrm installed. That command will use your .env for setup. If you change your .env you will need to run `docker stop pg && docker rm pg` then rerun the `npm run dev` command. After the db is created, this will start the front end and backend servers. 
 4. `npm run seed`
 This will give you some seed data to play around with in swagger docs (localhost:5573/api/docs)
