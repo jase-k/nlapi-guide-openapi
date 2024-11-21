@@ -15,6 +15,7 @@ const authenticateToken = require('../middlewares/authenticate');
  * /api/shopping-list:
  *   post:
  *     summary: Create a new shopping list item(s) from a recipeId or recipeIngredientId. If recipeId is provided, all ingredients from the recipe will be added to the shopping list.
+ *     description: NOTE You can not currently add anything to the shopping list that is not an ingredient from a recipe. This will be updated in the future.
  *     tags: [ShoppingLists]
  *     security:
  *       - bearerAuth: []

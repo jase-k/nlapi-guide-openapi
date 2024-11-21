@@ -23,7 +23,17 @@ exports.createShoppingListItem = async (req, res) => {
         );
       });
     }
-    res.status(201).json(shoppingListItems);
+    const shoppingList = await ShoppingListItem.findAll({
+      where: { familyId },
+      include: [
+        {
+          model: RecipeIngredient,
+          as: 'recipeIngredient',
+          include: ['ingredient', 'recipe'],
+        },
+      ],
+    });
+    res.status(201).json(shoppingList);
   } catch (error) {
     console.error('Error in createShoppingListItem', error);
     if (error.name === 'SequelizeForeignKeyConstraintError') {
@@ -40,10 +50,13 @@ exports.getAllShoppingListItems = async (req, res) => {
   try {
     const shoppingListItems = await ShoppingListItem.findAll({
       where: { familyId: req.user.familyId },
-      include: {
-        model: RecipeIngredient,
-        include: ['ingredient', 'recipe'],
-      },
+      include: [
+        {
+          model: RecipeIngredient,
+          as: 'recipeIngredient',
+          include: ['ingredient', 'recipe'],
+        },
+      ],
     });
     res.status(200).json(shoppingListItems);
   } catch (error) {
