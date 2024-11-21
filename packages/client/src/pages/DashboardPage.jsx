@@ -22,24 +22,49 @@ const DashboardPage = () => {
     navigate('/login');
   };
 
+  const handleNavigateToRecipes = () => {
+    navigate('/recipes');
+  };
+
+  const handleNavigateToShoppingList = () => {
+    navigate('/shoppinglist');
+  };
+
   const classes = useStyles();
 
   return (
     <>
       <Container maxWidth="md" className={classes.container}>
         <Box mt={8}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Welcome to the Dashboard!
-          </Typography>
-          <Box mt={4} display="flex" justifyContent="center">
+          <Box mb={4} display="flex" justifyContent="center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNavigateToRecipes}
+              style={{ marginLeft: '10px' }}
+            >
+              Recipes
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNavigateToShoppingList}
+              style={{ marginLeft: '10px' }}
+            >
+              Shopping List
+            </Button>
             <Button
               variant="contained"
               color="secondary"
               onClick={handleLogout}
+              style={{ marginLeft: '10px' }}
             >
               Logout
             </Button>
           </Box>
+          <Typography variant="h4" align="center" gutterBottom>
+            Welcome to the Dashboard!
+          </Typography>
           <CompanyDetails />
         </Box>
       </Container>
