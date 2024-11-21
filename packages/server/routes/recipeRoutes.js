@@ -88,7 +88,7 @@ router.get('/', recipeController.getAllRecipes);
  *         required: false
  *         schema:
  *           type: integer
- *           default: 3
+ *           default: 5
  *         description: The maximum number of results to return
  *     responses:
  *       200:

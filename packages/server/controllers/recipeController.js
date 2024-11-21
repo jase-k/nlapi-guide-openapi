@@ -113,7 +113,7 @@ exports.deleteRecipe = async (req, res) => {
 
 exports.searchRecipes = async (req, res) => {
   // NOTE: This search could be improved by vectorizing the recipe instructions and ingredients to create a better search experience. This example is just a simple search by title.
-  const { query, searchBy = 'title', limit = 3 } = req.query;
+  const { query, searchBy = 'title', limit = 5 } = req.query;
   console.log(query, searchBy, limit);
   if (!['title'].includes(searchBy)) {
     return res
