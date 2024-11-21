@@ -21,7 +21,9 @@
     "schemas": {
       "Family": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -51,7 +53,10 @@
       },
       "Ingredient": {
         "type": "object",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -81,7 +86,9 @@
       },
       "IngredientInput": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -94,7 +101,9 @@
       },
       "NlapiInput": {
         "type": "object",
-        "required": ["userInput"],
+        "required": [
+          "userInput"
+        ],
         "properties": {
           "userInput": {
             "type": "string",
@@ -121,7 +130,9 @@
         },
         "example": {
           "userInput": "What are the details of my profile?",
-          "context": ["today is October 29, 2024"],
+          "context": [
+            "today is October 29, 2024"
+          ],
           "threadId": "12345",
           "options": {
             "stream": "true"
@@ -276,7 +287,10 @@
       },
       "RecipeCreate": {
         "type": "object",
-        "required": ["title", "instructions"],
+        "required": [
+          "title",
+          "instructions"
+        ],
         "properties": {
           "title": {
             "type": "string"
@@ -307,7 +321,12 @@
       },
       "Recipe": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -342,7 +361,12 @@
       },
       "RecipeFull": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -442,7 +466,12 @@
       },
       "RecipeIngredientInput": {
         "type": "object",
-        "required": ["recipeId", "ingredientId", "quantity", "unitOfMeasure"],
+        "required": [
+          "recipeId",
+          "ingredientId",
+          "quantity",
+          "unitOfMeasure"
+        ],
         "properties": {
           "recipeId": {
             "type": "integer",
@@ -474,7 +503,12 @@
       },
       "RecipeIngredient": {
         "type": "object",
-        "required": ["ingredient", "quantity", "unitOfMeasure", "recipeId"],
+        "required": [
+          "ingredient",
+          "quantity",
+          "unitOfMeasure",
+          "recipeId"
+        ],
         "properties": {
           "quantity": {
             "type": "string",
@@ -717,7 +751,11 @@
       },
       "UserPrivate": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -757,7 +795,10 @@
       },
       "UserRegister": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -785,7 +826,10 @@
       },
       "UserLogin": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -812,7 +856,9 @@
     "/api/families": {
       "get": {
         "summary": "Retrieve a list of families",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "responses": {
           "200": {
             "description": "A list of families",
@@ -836,7 +882,9 @@
     "/api/families/{id}": {
       "get": {
         "summary": "Retrieve a single family by ID",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -871,7 +919,9 @@
     "/api/ingredients": {
       "post": {
         "summary": "Create a new ingredient",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -905,7 +955,9 @@
       },
       "get": {
         "summary": "Get all ingredients",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "responses": {
           "200": {
             "description": "A list of Ingredient objects",
@@ -926,7 +978,9 @@
     "/api/ingredients/search": {
       "get": {
         "summary": "Search ingredients",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -943,7 +997,9 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["name"]
+              "enum": [
+                "name"
+              ]
             },
             "description": "The field to search by (default is 'name')"
           },
@@ -984,7 +1040,9 @@
     "/api/nlapi": {
       "post": {
         "summary": "Send a request to the NLAPI",
-        "tags": ["no-nlapi"],
+        "tags": [
+          "no-nlapi"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1108,7 +1166,9 @@
     "/api/recipes": {
       "post": {
         "summary": "Create a new recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1142,7 +1202,9 @@
       },
       "get": {
         "summary": "Get all recipes with pagination.",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "responses": {
           "200": {
             "description": "A list of Recipe objects with pagination details",
@@ -1176,7 +1238,9 @@
     "/api/recipes/search": {
       "get": {
         "summary": "Search recipes by title",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -1193,7 +1257,9 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["title"]
+              "enum": [
+                "title"
+              ]
             },
             "description": "The field to search by (default is 'title')"
           },
@@ -1228,7 +1294,9 @@
     "/api/recipes/{id}": {
       "get": {
         "summary": "Get a single recipe by ID",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1258,7 +1326,9 @@
       },
       "put": {
         "summary": "Update a recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1303,7 +1373,9 @@
       },
       "delete": {
         "summary": "Delete a recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1333,7 +1405,10 @@
     "/api/session/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1381,7 +1456,10 @@
     "/api/session/login": {
       "post": {
         "summary": "Login a user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1523,7 +1601,9 @@
     "/api/users": {
       "get": {
         "summary": "Retrieve a list of users",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "A list of users",
@@ -1547,7 +1627,9 @@
     "/api/users/search": {
       "get": {
         "summary": "Fuzzy search users by name and email",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -1563,7 +1645,10 @@
             "name": "searchBy",
             "schema": {
               "type": "string",
-              "enum": ["name", "email"]
+              "enum": [
+                "name",
+                "email"
+              ]
             },
             "required": false,
             "description": "The field to search by (default is name)"
@@ -1601,7 +1686,9 @@
     "/api/users/profile": {
       "get": {
         "summary": "Get own user information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "User profile information",
@@ -1623,7 +1710,9 @@
       },
       "put": {
         "summary": "Update profile information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1665,7 +1754,9 @@
     "/api/users/{id}": {
       "get": {
         "summary": "Retrieve a single user by ID",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "path",
