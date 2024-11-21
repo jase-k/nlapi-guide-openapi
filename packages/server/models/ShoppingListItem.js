@@ -149,18 +149,22 @@ const ShoppingListItem = sequelize.define('shopping_list_items', {
 Family.hasMany(ShoppingListItem, {
   foreignKey: 'familyId',
   onDelete: 'CASCADE',
+  as: 'shoppingListItems',
 });
 ShoppingListItem.belongsTo(Family, {
   foreignKey: 'familyId',
   onDelete: 'CASCADE',
+  as: 'family',
 });
 RecipeIngredient.hasMany(ShoppingListItem, {
   foreignKey: 'recipeIngredientId',
   onDelete: 'CASCADE',
+  as: 'shoppingListItems',
 });
 ShoppingListItem.belongsTo(RecipeIngredient, {
   foreignKey: 'recipeIngredientId',
   onDelete: 'CASCADE',
+  as: 'recipeIngredient',
 });
 
 module.exports = ShoppingListItem;
