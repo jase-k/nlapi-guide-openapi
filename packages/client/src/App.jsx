@@ -8,6 +8,8 @@ import {
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
+import RecipesPage from './pages/Recipes';
+import ShoppingListPage from './pages/ShoppingListPage';
 import ChatBubble from './components/ChatBubble';
 
 const AppLayout = () => {
@@ -26,6 +28,8 @@ const AppLayout = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/" element={<LoginPage />} />
+        <Route path="/recipes" element={<RecipesPage />} />
+        <Route path="/shoppinglist" element={<ShoppingListPage />} />
         {/* Add more routes here as needed */}
       </Routes>
       {/* Conditionally render ChatBubble */}
