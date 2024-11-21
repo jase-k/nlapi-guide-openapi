@@ -1,4 +1,4 @@
-# [Welcome Video](https://drive.google.com/drive/folders/1GG9upPj0mClIDieDM7kfk4eRVo1VBtps?usp=sharing)
+# [Welcome Video](https://drive.google.com/file/d/1Fwt86ysyGIN_URjE7DZDl671DB7OVlCJ/view?usp=sharing)
 
 > [!WARNING]
 > This repository is for demonstration purpose, there is almost certainly bugs in the follow steps. If you find one and submit a PR that gets merged in, I will give you an additional **$5 in credits** for the NLAPI.
