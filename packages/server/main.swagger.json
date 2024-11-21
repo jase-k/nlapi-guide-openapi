@@ -21,7 +21,9 @@
     "schemas": {
       "Family": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -51,7 +53,10 @@
       },
       "Ingredient": {
         "type": "object",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -81,7 +86,9 @@
       },
       "IngredientInput": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -94,7 +101,9 @@
       },
       "NlapiInput": {
         "type": "object",
-        "required": ["userInput"],
+        "required": [
+          "userInput"
+        ],
         "properties": {
           "userInput": {
             "type": "string",
@@ -121,7 +130,9 @@
         },
         "example": {
           "userInput": "What are the details of my profile?",
-          "context": ["today is October 29, 2024"],
+          "context": [
+            "today is October 29, 2024"
+          ],
           "threadId": "12345",
           "options": {
             "stream": "true"
@@ -276,7 +287,10 @@
       },
       "RecipeCreate": {
         "type": "object",
-        "required": ["title", "instructions"],
+        "required": [
+          "title",
+          "instructions"
+        ],
         "properties": {
           "title": {
             "type": "string"
@@ -307,7 +321,12 @@
       },
       "Recipe": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -342,7 +361,12 @@
       },
       "RecipeFull": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": [
+          "id",
+          "title",
+          "ingredients",
+          "instructions"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -414,7 +438,7 @@
         "type": "object",
         "required": [
           "recipeId",
-          "ingredient_name",
+          "ingredientName",
           "quantity",
           "unitOfMeasure"
         ],
@@ -423,7 +447,7 @@
             "type": "integer",
             "description": "ID of the recipe"
           },
-          "ingredient_name": {
+          "ingredientName": {
             "type": "string",
             "description": "Name of the ingredient"
           },
@@ -436,15 +460,23 @@
             "description": "Unit of measure for the ingredient"
           }
         },
-        "example": {
-          "ingredient_name": "Tomato",
-          "quantity": 200,
-          "unitOfMeasure": "grams"
-        }
+        "examples": [
+          {
+            "recipeId": 1,
+            "ingredientName": "Tomato",
+            "quantity": 200,
+            "unitOfMeasure": "grams"
+          }
+        ]
       },
       "RecipeIngredientInput": {
         "type": "object",
-        "required": ["recipeId", "ingredientId", "quantity", "unitOfMeasure"],
+        "required": [
+          "recipeId",
+          "ingredientId",
+          "quantity",
+          "unitOfMeasure"
+        ],
         "properties": {
           "recipeId": {
             "type": "integer",
@@ -463,15 +495,25 @@
             "description": "Unit of measure for the ingredient"
           }
         },
-        "example": {
-          "ingredientId": 1,
-          "quantity": 200,
-          "unitOfMeasure": "grams"
+        "examples": {
+          "RecipeIngredientInputExample": {
+            "value": {
+              "recipeId": 1,
+              "ingredientId": 1,
+              "quantity": 200,
+              "unitOfMeasure": "grams"
+            }
+          }
         }
       },
       "RecipeIngredient": {
         "type": "object",
-        "required": ["ingredient", "quantity", "unitOfMeasure", "recipeId"],
+        "required": [
+          "ingredient",
+          "quantity",
+          "unitOfMeasure",
+          "recipeId"
+        ],
         "properties": {
           "quantity": {
             "type": "string",
@@ -503,14 +545,192 @@
             "format": "date-time"
           }
         },
-        "example": {
-          "quantity": 200,
-          "unitOfMeasure": "g",
-          "ingredient": {
-            "id": 1,
-            "name": "Tomato"
+        "examples": [
+          {
+            "quantity": 200,
+            "unitOfMeasure": "g",
+            "ingredient": {
+              "id": 1,
+              "name": "Tomato"
+            },
+            "recipeId": 1
+          }
+        ]
+      },
+      "ShoppingListItemInput": {
+        "type": "object",
+        "required": null,
+        "properties": null,
+        "oneOf": [
+          {
+            "properties": {
+              "recipeIngredientId": {
+                "type": "integer",
+                "description": "ID of the recipe ingredient"
+              }
+            }
           },
-          "recipeId": 1
+          {
+            "properties": {
+              "recipeId": {
+                "type": "integer",
+                "description": "ID of the recipe"
+              }
+            }
+          }
+        ]
+      },
+      "ShoppingListItem": {
+        "type": "object",
+        "required": [
+          "recipeIngredientId",
+          "isPurchased",
+          "createdAt",
+          "updatedAt",
+          "familyId"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Auto-generated ID"
+          },
+          "isPurchased": {
+            "type": "boolean",
+            "description": "Whether the item has been purchased"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time of creation"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time of last update"
+          },
+          "familyId": {
+            "type": "integer",
+            "description": "ID of the family"
+          },
+          "recipeIngredientId": {
+            "type": "integer",
+            "description": "ID of the recipe ingredient"
+          },
+          "recipe_ingredient": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Auto-generated ID"
+              },
+              "quantity": {
+                "type": "number",
+                "description": "Quantity of the ingredient"
+              },
+              "unitOfMeasure": {
+                "type": "string",
+                "description": "Unit of measure for the ingredient"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of creation"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of last update"
+              },
+              "recipeId": {
+                "type": "integer",
+                "description": "ID of the recipe"
+              },
+              "ingredientId": {
+                "type": "integer",
+                "description": "ID of the ingredient"
+              },
+              "Ingredient": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Auto-generated ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the ingredient"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of creation"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of last update"
+                  }
+                }
+              },
+              "Recipe": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Auto-generated ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the recipe"
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "description": "Cooking instructions"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of creation"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of last update"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "id": 1,
+          "isPurchased": false,
+          "createdAt": "2024-11-14T12:06:58.268Z",
+          "updatedAt": "2024-11-14T12:06:58.268Z",
+          "familyId": 1,
+          "recipeIngredientId": 9,
+          "recipe_ingredient": {
+            "id": 9,
+            "quantity": 500,
+            "unitOfMeasure": "grams",
+            "createdAt": "2024-11-14T11:54:21.801Z",
+            "updatedAt": "2024-11-14T11:54:21.801Z",
+            "recipeId": 2,
+            "ingredientId": 1,
+            "Ingredient": {
+              "id": 1,
+              "name": "Tomato",
+              "createdAt": "2024-11-14T11:54:21.797Z",
+              "updatedAt": "2024-11-14T11:54:21.797Z"
+            },
+            "Recipe": {
+              "id": 2,
+              "title": "Tomato Soup",
+              "instructions": "Cook tomatoes, blend, season, and serve",
+              "createdAt": "2024-11-14T11:54:21.799Z",
+              "updatedAt": "2024-11-14T11:54:21.799Z"
+            }
+          }
         }
       },
       "UserPublic": {
@@ -536,7 +756,11 @@
       },
       "UserPrivate": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -576,7 +800,10 @@
       },
       "UserRegister": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -604,7 +831,10 @@
       },
       "UserLogin": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -631,7 +861,9 @@
     "/api/families": {
       "get": {
         "summary": "Retrieve a list of families",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "responses": {
           "200": {
             "description": "A list of families",
@@ -655,7 +887,9 @@
     "/api/families/{id}": {
       "get": {
         "summary": "Retrieve a single family by ID",
-        "tags": ["Family"],
+        "tags": [
+          "Family"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -690,7 +924,9 @@
     "/api/ingredients": {
       "post": {
         "summary": "Create a new ingredient",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -724,7 +960,9 @@
       },
       "get": {
         "summary": "Get all ingredients",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "responses": {
           "200": {
             "description": "A list of Ingredient objects",
@@ -745,7 +983,9 @@
     "/api/ingredients/search": {
       "get": {
         "summary": "Search ingredients",
-        "tags": ["Ingredients"],
+        "tags": [
+          "Ingredients"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -762,7 +1002,9 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["name"]
+              "enum": [
+                "name"
+              ]
             },
             "description": "The field to search by (default is 'name')"
           },
@@ -803,7 +1045,9 @@
     "/api/nlapi": {
       "post": {
         "summary": "Send a request to the NLAPI",
-        "tags": ["no-nlapi"],
+        "tags": [
+          "no-nlapi"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -833,10 +1077,107 @@
         }
       }
     },
+    "/api/recipe-ingredients": {
+      "post": {
+        "summary": "Create a new recipe ingredient",
+        "tags": [
+          "RecipeIngredients"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/RecipeIngredientInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RecipeIngredientInputCreateIngredient"
+                  }
+                ]
+              },
+              "examples": {
+                "RecipeIngredientInputExample": {
+                  "value": {
+                    "recipeId": 1,
+                    "ingredientId": 1,
+                    "quantity": 200,
+                    "unitOfMeasure": "grams"
+                  }
+                },
+                "RecipeIngredientInputCreateIngredientExample": {
+                  "value": {
+                    "recipeId": 1,
+                    "ingredientName": "Tomato",
+                    "quantity": 200,
+                    "unitOfMeasure": "grams"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recipe ingredient created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeIngredient"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      }
+    },
+    "/api/recipe-ingredients/{id}": {
+      "delete": {
+        "summary": "Delete a recipe ingredient",
+        "tags": [
+          "RecipeIngredients"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The recipe ingredient ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Recipe ingredient deleted successfully"
+          },
+          "404": {
+            "description": "Recipe ingredient not found"
+          }
+        }
+      }
+    },
     "/api/recipes": {
       "post": {
         "summary": "Create a new recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -870,7 +1211,9 @@
       },
       "get": {
         "summary": "Get all recipes with pagination.",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "responses": {
           "200": {
             "description": "A list of Recipe objects with pagination details",
@@ -904,7 +1247,9 @@
     "/api/recipes/search": {
       "get": {
         "summary": "Search recipes by title",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -921,7 +1266,9 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["title"]
+              "enum": [
+                "title"
+              ]
             },
             "description": "The field to search by (default is 'title')"
           },
@@ -956,7 +1303,9 @@
     "/api/recipes/{id}": {
       "get": {
         "summary": "Get a single recipe by ID",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -986,7 +1335,9 @@
       },
       "put": {
         "summary": "Update a recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1031,7 +1382,9 @@
       },
       "delete": {
         "summary": "Delete a recipe",
-        "tags": ["Recipes"],
+        "tags": [
+          "Recipes"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -1061,7 +1414,10 @@
     "/api/session/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1109,7 +1465,10 @@
     "/api/session/login": {
       "post": {
         "summary": "Login a user",
-        "tags": ["Session", "no-nlapi"],
+        "tags": [
+          "Session",
+          "no-nlapi"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1154,10 +1513,111 @@
         }
       }
     },
+    "/api/shopping-list": {
+      "post": {
+        "summary": "Create a new shopping list item(s) from a recipeId or recipeIngredientId. If recipeId is provided, all ingredients from the recipe will be added to the shopping list.",
+        "tags": [
+          "ShoppingLists"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShoppingListItemInput"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Example with recipeIngredientId",
+                  "value": {
+                    "recipeIngredientId": 1
+                  }
+                },
+                "example2": {
+                  "summary": "Example with recipeId",
+                  "value": {
+                    "recipeId": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Shopping list item created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all shopping list items",
+        "tags": [
+          "ShoppingLists"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of ShoppingListItem objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShoppingListItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete all items in user's shopping list",
+        "tags": [
+          "ShoppingLists"
+        ],
+        "responses": {
+          "200": {
+            "description": "All shopping list items deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/users": {
       "get": {
         "summary": "Retrieve a list of users",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "A list of users",
@@ -1181,7 +1641,9 @@
     "/api/users/search": {
       "get": {
         "summary": "Fuzzy search users by name and email",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -1197,7 +1659,10 @@
             "name": "searchBy",
             "schema": {
               "type": "string",
-              "enum": ["name", "email"]
+              "enum": [
+                "name",
+                "email"
+              ]
             },
             "required": false,
             "description": "The field to search by (default is name)"
@@ -1235,7 +1700,9 @@
     "/api/users/profile": {
       "get": {
         "summary": "Get own user information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "User profile information",
@@ -1257,7 +1724,9 @@
       },
       "put": {
         "summary": "Update profile information",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1299,7 +1768,9 @@
     "/api/users/{id}": {
       "get": {
         "summary": "Retrieve a single user by ID",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1335,6 +1806,10 @@
       "description": "Ingredient management"
     },
     {
+      "name": "RecipeIngredients",
+      "description": "Recipe ingredient management"
+    },
+    {
       "name": "Recipes",
       "description": "Recipe management"
     },
@@ -1345,6 +1820,10 @@
     {
       "name": "Session",
       "description": "Session management"
+    },
+    {
+      "name": "ShoppingLists",
+      "description": "Shopping list management"
     }
   ]
 }
