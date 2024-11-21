@@ -12,6 +12,8 @@ In this step we will add streaming capabilities from the NLAPI as well as more f
 
 **4. Try adding a new recipe**: Use the chat to add a new recipe. Go to http://localhost:5573/recipes to see the new recipe.
 
+**3. Try adding a new recipe**: Use the chat to add a new recipe. Go to localhost:5573/recipes to see the new recipe. 
+
 ## Features Added:
 
 - **Streaming Messages**: This allows the message reply look to like it's typing back a response in real time.
