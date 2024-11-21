@@ -69,6 +69,8 @@ const sessionRoutes = require('./routes/sessionRoutes');
 const nlapiRoutes = require('./routes/nlapiRoutes');
 const ingredientRoutes = require('./routes/ingredientRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
+const recipeIngredientRoutes = require('./routes/recipeIngredients');
+const shoppingListRoutes = require('./routes/shoppingListRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/families', familyRoutes);
@@ -76,5 +78,7 @@ app.use('/api/session', sessionRoutes);
 app.use('/api/nlapi', nlapiRoutes);
 app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/recipe-ingredients', recipeIngredientRoutes);
+app.use('/api/shopping-list', shoppingListRoutes);
 
 module.exports = app;

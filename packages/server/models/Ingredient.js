@@ -44,6 +44,7 @@ const Ingredient = sequelize.define('ingredients', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
 });
 

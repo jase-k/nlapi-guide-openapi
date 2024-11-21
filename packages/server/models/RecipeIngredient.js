@@ -11,14 +11,14 @@ const Ingredient = require('./Ingredient');
  *       type: object
  *       required:
  *         - recipeId
- *         - ingredient_name
+ *         - ingredientName
  *         - quantity
  *         - unitOfMeasure
  *       properties:
  *         recipeId:
  *           type: integer
  *           description: ID of the recipe
- *         ingredient_name:
+ *         ingredientName:
  *           type: string
  *           description: Name of the ingredient
  *         quantity:
@@ -27,10 +27,11 @@ const Ingredient = require('./Ingredient');
  *         unitOfMeasure:
  *           type: string
  *           description: Unit of measure for the ingredient
- *       example:
- *         ingredient_name: Tomato
- *         quantity: 200
- *         unitOfMeasure: "grams"
+ *       examples:
+ *         - recipeId: 1
+ *           ingredientName: Tomato
+ *           quantity: 200
+ *           unitOfMeasure: "grams"
  *     RecipeIngredientInput:
  *       type: object
  *       required:
@@ -51,10 +52,13 @@ const Ingredient = require('./Ingredient');
  *         unitOfMeasure:
  *           type: string
  *           description: Unit of measure for the ingredient
- *       example:
- *         ingredientId: 1
- *         quantity: 200
- *         unitOfMeasure: "grams"
+ *       examples:
+ *         RecipeIngredientInputExample:
+ *           value:
+ *             recipeId: 1
+ *             ingredientId: 1
+ *             quantity: 200
+ *             unitOfMeasure: "grams"
  *     RecipeIngredient:
  *       type: object
  *       required:
@@ -85,22 +89,44 @@ const Ingredient = require('./Ingredient');
  *           type: string
  *           description: Date and time of last update
  *           format: date-time
- *       example:
- *         quantity: 200
- *         unitOfMeasure: "g"
- *         ingredient: {id: 1, name: "Tomato"}
- *         recipeId: 1
+ *       examples:
+ *         - quantity: 200
+ *           unitOfMeasure: "g"
+ *           ingredient: {id: 1, name: "Tomato"}
+ *           recipeId: 1
  */
-const RecipeIngredient = sequelize.define('recipe_ingredients', {
-  quantity: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
+const RecipeIngredient = sequelize.define(
+  'recipe_ingredients',
+  {
+    quantity: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    unitOfMeasure: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    ingredientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: 'recipe_ingredient_unique_constraint',
+    },
+    recipeId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: 'recipe_ingredient_unique_constraint',
+    },
   },
-  unitOfMeasure: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+  {
+    indexes: [
+      {
+        unique: true,
+        fields: ['ingredientId', 'recipeId'],
+        name: 'recipe_ingredient_unique_constraint',
+      },
+    ],
+  }
+);
 
 Ingredient.hasMany(RecipeIngredient, {
   foreignKey: 'ingredientId',
