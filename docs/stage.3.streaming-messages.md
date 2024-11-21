@@ -23,6 +23,6 @@ If visualizing is helpful.
 - Displays status messages, you can map responses if needed. 
 - Note Recipe Ingredient Unique Constraint Error Message. 
 - Note: Current limitation to the Shopping list is that you can only add ingredients from a recipeIngredient
-- TODO: Add UI and Shopping Items
+- TODO: Add UI and Shopping Items (fix create return)
 
 ## Common Errors:
