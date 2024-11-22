@@ -11,9 +11,12 @@ import DashboardPage from './pages/DashboardPage';
 import RecipesPage from './pages/Recipes';
 import ShoppingListPage from './pages/ShoppingListPage';
 import ChatBubble from './components/ChatBubble';
+import useInvalidateQueriesOnStoreChange from './hooks/useInvalidateQueriesOnStoreChange';
 
 const AppLayout = () => {
   const location = useLocation();
+
+  useInvalidateQueriesOnStoreChange();
 
   // Define routes where ChatBubble should NOT be displayed
   const excludedRoutes = ['/login', '/signup', '/'];
