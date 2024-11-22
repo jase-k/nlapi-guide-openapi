@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -8,8 +7,7 @@ import {
   ListItemText,
   Button,
 } from '@mui/material';
-import useEndpointStore from '../store/endpointStore';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const fetchShoppingListItems = async () => {
   try {
@@ -26,30 +24,15 @@ const fetchShoppingListItems = async () => {
 };
 
 const ShoppingListPage = () => {
-  const { latestEndpoints } = useEndpointStore();
   const {
     data: shoppingListItems,
     error,
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: ['shopping-list'],
     queryFn: () => fetchShoppingListItems(),
   });
-
-  useEffect(() => {
-    const endpointsToCheck = ['/api/shopping-list'];
-    const methodsToCheck = ['PUT', 'POST', 'DELETE'];
-    console.log('latestEndpoints', latestEndpoints);
-    const shouldRefetch = latestEndpoints.some(
-      (endpoint) =>
-        endpointsToCheck.includes(endpoint.path) &&
-        methodsToCheck.includes(endpoint.method.toUpperCase())
-    );
-    if (shouldRefetch) {
-      refetch();
-    }
-  }, [latestEndpoints, refetch]);
+  const queryClient = useQueryClient();
 
   const handleDeleteAll = async () => {
     try {
@@ -61,7 +44,7 @@ const ShoppingListPage = () => {
       });
 
       if (response.ok) {
-        refetch();
+        queryClient.invalidateQueries({ queryKey: ['shopping-list'] });
       } else {
         console.error('Failed to delete shopping list items');
       }

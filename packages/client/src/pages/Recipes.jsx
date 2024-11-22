@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Container,
   Typography,
@@ -9,22 +9,27 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 
+const fetchRecipes = async () => {
+  const response = await fetch('/api/recipes');
+  if (!response.ok) {
+    throw new Error('Failed to fetch recipes');
+  }
+  const data = await response.json();
+  return data.recipes;
+};
+
 const RecipesPage = () => {
-  const [recipes, setRecipes] = useState([]);
+  const {
+    data: recipes = [],
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['recipes'],
+    queryFn: fetchRecipes,
+  });
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const response = await fetch('/api/recipes');
-        const data = await response.json();
-        setRecipes(data.recipes);
-      } catch (error) {
-        console.error('Failed to fetch recipes:', error);
-      }
-    };
-
-    fetchRecipes();
-  }, []);
+  if (isLoading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error loading recipes</Typography>;
 
   return (
     <Container maxWidth="md">
