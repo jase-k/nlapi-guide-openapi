@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import { EventSourceParserStream } from 'eventsource-parser/stream';
+import useEndpointStore from '../store/endpointStore';
 
 const ChatContainer = styled(Paper)(({ theme }) => ({
   position: 'fixed',
@@ -85,6 +86,7 @@ const StatusMessage = styled('div')(({ theme }) => ({
 }));
 
 export default function Component() {
+  const { setEndpoints } = useEndpointStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -120,19 +122,25 @@ export default function Component() {
           const response = await handleSendingMessage(body);
 
           let thread_id;
+          let latestEndpoints;
           if (isStreaming) {
             const reader = response.body
               ?.pipeThrough(new TextDecoderStream())
               ?.pipeThrough(new EventSourceParserStream());
-            thread_id = await handleStreamingEvents(reader);
+            [thread_id, latestEndpoints] = await handleStreamingEvents(reader);
           } else {
             const data = await response.json();
             console.log('Non-Streaming Response from NLAPI:', data);
             setMessages(data.messages.reverse());
             thread_id = data.thread_id;
+            latestEndpoints = data.endpoints_called.map((endpoint) => ({
+              path: endpoint['path'],
+              method: endpoint['method'],
+            }));
           }
           // Set the thread id to the thread id from the response regardless of streaming or not
           setThreadId(thread_id);
+          setEndpoints(latestEndpoints);
         } catch (error) {
           console.error('Error sending message to NLAPI:', error);
         }
@@ -140,7 +148,7 @@ export default function Component() {
 
       sendMessage();
     },
-    [message, isStreaming, threadId]
+    [message, isStreaming, threadId, setEndpoints]
   );
 
   const handleSendingMessage = async (body) => {
@@ -173,6 +181,7 @@ export default function Component() {
       });
     };
 
+    let latestEndpoints;
     for await (const chunk of reader) {
       const { event, data } = chunk;
       const chunkEventData = JSON.parse(data);
@@ -189,12 +198,18 @@ export default function Component() {
         updateMessages(lastMessage, lastChunkEvent !== 'message_chunk');
       } else if (event === 'close') {
         threadId = chunkEventData.thread_id;
+        latestEndpoints = chunkEventData.endpoints_called.map((endpoint) => ({
+          path: endpoint['path'],
+          method: endpoint['method'],
+        }));
+      } else if (event === 'error') {
+        console.error('Error from NLAPI:', chunkEventData);
       }
 
       lastChunkEvent = event;
     }
 
-    return threadId;
+    return [threadId, latestEndpoints];
   };
 
   return (
