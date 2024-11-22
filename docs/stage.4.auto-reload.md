@@ -5,7 +5,7 @@ In this step
 
 ## Steps:
 
-**1. Confirm React Query is working**: run `npm install && npm run seed && npm run dev` to update the app. Login at localhost:5573. Go to shopping list page. Type in the chat 'add spaghetti bolognese to my shopping list' You should see the ingredients from that recipe appear in your shopping list without refreshing the page. 
+**1. Confirm React Query is working**: run `npm install && npm run seed && npm run dev` to update the app. Login at localhost:5573. Go to shopping list page. Type in the chat 'add spaghetti bolognese to my shopping list' You should see the ingredients from that recipe appear in your shopping list without refreshing the page. (You'll be able to type in 'clear my list' and it'll clear it as well.)
 
 ## Features Added:
 
@@ -14,4 +14,6 @@ In this step
 ## Notes:
 - Array(9) in Zustand store to set 9 spots for endpoints.
 - Look at React Query Client in main.jsx
+- You won't be able to edit an item in the shopping list as we do not have an endpoint set up for that. 
+- Check out the custom hook `hooks/useInvalidateQueries.js` && `config/queryRefetchConfig.js` used to reset caches
 
