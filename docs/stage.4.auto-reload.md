@@ -16,4 +16,4 @@ In this step
 - Look at React Query Client in main.jsx
 - You won't be able to edit an item in the shopping list as we do not have an endpoint set up for that. 
 - Check out the custom hook `hooks/useInvalidateQueries.js` && `config/queryRefetchConfig.js` used to reset caches
-
+- Recipes page uses some logic to highlight what has changed on the screen. 
