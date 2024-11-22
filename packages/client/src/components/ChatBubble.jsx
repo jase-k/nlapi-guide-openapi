@@ -133,14 +133,19 @@ export default function Component() {
             console.log('Non-Streaming Response from NLAPI:', data);
             setMessages(data.messages.reverse());
             thread_id = data.thread_id;
-            latestEndpoints = data.endpoints_called.map((endpoint) => ({
-              path: endpoint['path'],
-              method: endpoint['method'],
-            }));
+            const endpoints_called = data.endpoints_called;
+            if (endpoints_called) {
+              latestEndpoints = endpoints_called.map((endpoint) => ({
+                path: endpoint['path'],
+                method: endpoint['method'],
+              }));
+            }
           }
           // Set the thread id to the thread id from the response regardless of streaming or not
           setThreadId(thread_id);
-          setEndpoints(latestEndpoints);
+          if (latestEndpoints) {
+            setEndpoints(latestEndpoints);
+          }
         } catch (error) {
           console.error('Error sending message to NLAPI:', error);
         }
@@ -198,10 +203,13 @@ export default function Component() {
         updateMessages(lastMessage, lastChunkEvent !== 'message_chunk');
       } else if (event === 'close') {
         threadId = chunkEventData.thread_id;
-        latestEndpoints = chunkEventData.endpoints_called.map((endpoint) => ({
-          path: endpoint['path'],
-          method: endpoint['method'],
-        }));
+        const endpoints_called = chunkEventData.endpoints_called;
+        if (endpoints_called) {
+          latestEndpoints = endpoints_called.map((endpoint) => ({
+            path: endpoint['path'],
+            method: endpoint['method'],
+          }));
+        }
       } else if (event === 'error') {
         console.error('Error from NLAPI:', chunkEventData);
       }
