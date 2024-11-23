@@ -1,6 +1,6 @@
-## [Overview]()
+## [Overview](#)
 
-In this step 
+In this step we set up React Querying to allow for 'live reload' when interacting with assets on page through the chat window. 
 
 
 ## Steps:
