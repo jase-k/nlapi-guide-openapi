@@ -3,6 +3,11 @@ const { ShoppingListItem, RecipeIngredient } = require('../models');
 exports.createShoppingListItem = async (req, res) => {
   try {
     const { recipeIngredientId, recipeId } = req.body;
+    if (!recipeIngredientId && !recipeId) {
+      return res
+        .status(400)
+        .json({ error: 'Either recipeIngredientId or recipeId is required' });
+    }
     const familyId = req.user.familyId;
     let shoppingListItems = [];
     if (recipeIngredientId) {
