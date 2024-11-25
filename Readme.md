@@ -11,5 +11,10 @@ This will not be an in-dept 'how to code' walkthrough, so you should be familiar
 
 You don't need to be an expert in the above technology as you should be able to take the concepts you learn in each step and take those to any project that you are working on. 
 
+## Demo: 
+![Watch the demo video](./docs/assets/demo.webm)
+
+
 ## Questions: 
 Reach out to jase@jasekraft.com or join our discord community: https://discord.gg/bcjmGnbj8d 
+
