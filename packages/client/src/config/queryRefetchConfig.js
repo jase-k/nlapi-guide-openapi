@@ -23,5 +23,11 @@ export const queryRefetchConfig = {
       methods: ['POST', 'DELETE'],
     },
   ],
+  // 'recipe': [
+  //   {
+  //     endpoints: ['/api/recipes/*'],
+  //     methods: ['GET'],
+  //   },
+  // ],
   // Add more mappings as needed
 };

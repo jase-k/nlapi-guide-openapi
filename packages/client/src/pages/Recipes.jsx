@@ -9,28 +9,34 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const fetchRecipes = async () => {
-  const response = await fetch('/api/recipes');
+const fetchRecipes = async (offset = 0, limit = 10) => {
+  const response = await fetch(`/api/recipes?offset=${offset}&limit=${limit}`);
   if (!response.ok) {
     throw new Error('Failed to fetch recipes');
   }
   const data = await response.json();
-  return data.recipes;
+  return data;
 };
 
 const RecipesPage = () => {
+  const [offset, setOffset] = useState(0);
+  const limit = 10; // Number of recipes per page
+
   const {
-    data: recipes = [],
+    data: { recipes = [], totalItems = 0 } = {},
     error,
     isLoading,
   } = useQuery({
-    queryKey: ['recipes'],
-    queryFn: fetchRecipes,
+    queryKey: ['recipes', offset],
+    queryFn: () => fetchRecipes(offset, limit),
   });
 
   const [highlightedSections, setHighlightedSections] = useState({});
   const prevRecipesRef = useRef([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const prevRecipes = prevRecipesRef.current;
@@ -54,22 +60,53 @@ const RecipesPage = () => {
       }
     });
 
-    setHighlightedSections(newHighlightedSections);
-    prevRecipesRef.current = recipes;
+    if (Object.keys(newHighlightedSections).length > 0) {
+      setHighlightedSections((prev) => ({
+        ...prev,
+        ...newHighlightedSections,
+      }));
+      const timer = setTimeout(() => {
+        setHighlightedSections({});
+      }, 2000); // Remove highlight after 2 seconds
+      return () => clearTimeout(timer);
+    }
 
-    const timer = setTimeout(() => setHighlightedSections({}), 2000); // Remove highlight after 2 seconds
-    return () => clearTimeout(timer);
+    prevRecipesRef.current = recipes;
   }, [recipes]);
 
-  if (isLoading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error loading recipes</Typography>;
+  const handleNextPage = () => {
+    if (offset + limit < totalItems) {
+      setOffset(offset + limit);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (offset - limit >= 0) {
+      setOffset(offset - limit);
+    }
+  };
+
+  if (isLoading) return <Typography component="div">Loading...</Typography>;
+  if (error)
+    return <Typography component="div">Error loading recipes</Typography>;
 
   return (
     <Container maxWidth="md">
       <Box mt={8}>
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h4" component="div" gutterBottom>
           All Recipes
         </Typography>
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <button onClick={handlePreviousPage} disabled={offset === 0}>
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={offset + limit >= totalItems}
+          >
+            Next
+          </button>
+        </Box>
         <List>
           {recipes.map((recipe) => (
             <ListItem
@@ -82,18 +119,21 @@ const RecipesPage = () => {
                 marginBottom: '16px',
                 padding: '16px',
                 transition: 'background-color 0.5s ease',
+                cursor: 'pointer',
               }}
+              onClick={() => navigate(`/recipe/${recipe.id}`)}
             >
               <ListItemText
+                disableTypography
                 primary={
-                  <Typography variant="h6" component="span">
+                  <Typography variant="h6" component="div">
                     {recipe.title}
                   </Typography>
                 }
                 secondary={
-                  <>
+                  <Box component="div">
                     <Typography
-                      component="span"
+                      component="div"
                       variant="body2"
                       color="textPrimary"
                     >
@@ -109,9 +149,15 @@ const RecipesPage = () => {
                             ? '#f0f8ff'
                             : 'inherit',
                           transition: 'background-color 0.5s ease',
+                          padding: '8px',
+                          borderRadius: '4px',
                         }}
                       >
-                        <Typography variant="subtitle1" gutterBottom>
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          gutterBottom
+                        >
                           Ingredients:
                         </Typography>
                         <ul>
@@ -129,20 +175,43 @@ const RecipesPage = () => {
                             ? '#f0f8ff'
                             : 'inherit',
                           transition: 'background-color 0.5s ease',
+                          padding: '8px',
+                          borderRadius: '4px',
                         }}
                       >
-                        <Typography variant="subtitle1" gutterBottom>
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          gutterBottom
+                        >
                           Instructions:
                         </Typography>
-                        <ReactMarkdown>{recipe.instructions}</ReactMarkdown>
+                        <ReactMarkdown
+                          components={{
+                            p: ({ ...props }) => <div {...props} />,
+                          }}
+                        >
+                          {recipe.instructions}
+                        </ReactMarkdown>
                       </Box>
                     </Box>
-                  </>
+                  </Box>
                 }
               />
             </ListItem>
           ))}
         </List>
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <button onClick={handlePreviousPage} disabled={offset === 0}>
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={offset + limit >= totalItems}
+          >
+            Next
+          </button>
+        </Box>
       </Box>
     </Container>
   );
