@@ -12,6 +12,7 @@ import RecipesPage from './pages/Recipes';
 import ShoppingListPage from './pages/ShoppingListPage';
 import ChatBubble from './components/ChatBubble';
 import useInvalidateQueriesOnStoreChange from './hooks/useInvalidateQueriesOnStoreChange';
+import RecipeDetailsPage from './pages/RecipeDetailsPage';
 
 const AppLayout = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const AppLayout = () => {
         <Route path="/" element={<LoginPage />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/shoppinglist" element={<ShoppingListPage />} />
+        <Route path="/recipe/:id" element={<RecipeDetailsPage />} />
         {/* Add more routes here as needed */}
       </Routes>
       {/* Conditionally render ChatBubble */}
