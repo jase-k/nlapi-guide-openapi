@@ -18,6 +18,7 @@ import {
 import ReactMarkdown from 'react-markdown';
 import { EventSourceParserStream } from 'eventsource-parser/stream';
 import useEndpointStore from '../store/endpointStore';
+import useBotContextStore from '../store/botContextStore';
 
 const ChatContainer = styled(Paper)(({ theme }) => ({
   position: 'fixed',
@@ -93,7 +94,7 @@ export default function Component() {
   const [statusMessage, setStatusMessage] = useState('');
   const [threadId, setThreadId] = useState(null);
   const [isStreaming, setIsStreaming] = useState(false);
-
+  const context = useBotContextStore((state) => state.context);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -114,6 +115,7 @@ export default function Component() {
         let body = {
           userInput: message,
           threadId: threadId,
+          context: context,
           options: {
             stream: isStreaming,
           },
