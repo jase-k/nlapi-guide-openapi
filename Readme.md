@@ -10,7 +10,7 @@ Each branch will have it's own link to a walkthrough video and .md file in the `
 
 ## Prerequisites
 
-This will not be an in-depth 'how to code' walkthrough, so you should be familiar with javascript/node, docker, postgres, and React to get the most out of this walk through.
+This will not be an in-depth 'how to code' walkthrough, so you should be familiar with javascript/node, docker, postgres, and React to get the most out of this walkthrough.
 
 You don't need to be an expert in the above technology as you should be able to take the concepts you learn in each step and take those to any project that you are working on.
 
