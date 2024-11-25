@@ -1,27 +1,32 @@
 ## [Overview](https://drive.google.com/file/d/1mdbI9zAPkK8Pc5DUAu5ynWL-ZV9Mv5GP/view?usp=sharing)
 
-In this step we will connect the NLAPI. Since the NLAPI will be making api calls to your server (which is currently only deployed locally) we will need to use a service called nGrok to port traffic from a public web address to a specific port on your machine (5573 unless you changed the port settings in the client package).
+In this step we will connect the NLAPI. Since the NLAPI will be making api calls to your server (which is currently only deployed locally) we will need to use a service called [nGrok](https://ngrok.com/) to route traffic from a public web address to a specific port on your machine (5573 unless you changed the port settings in the client package).
 
-We will also need to create an Application in the NLAPI portal (currently the portal is a series of api endpoints, but will have a UI for our portal soon checkout the progress here: [nlapi.io](https://nlapi.io)). Creating an application will give you the ability to create an api key as well.
+We will also need to create an Application in the NLAPI portal. Creating an application will give you the ability to create an api key as well.
+
+> [!NOTE]  
+> The portal is currently available via API endpoints only. A web-based UI is coming soon - checkout the progress at [nlapi.io](https://nlapi.io).
 
 These steps will require you to save some information to your .env to make the rest of the setup work.
 
-For your convience, I've created a script to easily setup your account in the NLAPI portal.
+For your convenience, I've created a script to easily setup your account in the NLAPI portal.
 
-Once this stage is complete, you should have a simple UI and an API that allows you to ask about users, your profile and families in natural language.
+Once this stage is complete, you should have a simple UI and an API that allows you to ask about users, your profile, and families in natural language.
 
-When done with this stage, you should have a working application with a conversation first design. Because we are using the NLAPI which is an external service that needs to have access to call your local api endpoints we have to use a service called nGrok to route url traffic back to a specific port on your computer. Therefore your development architecture will look like this: 
+When done with this stage, you should have a working, conversation-first application. Because we are using nGrok to route responses from the NLAPI back to a specific port on your computer, your development architecture will look like this:
+
 ![NLAPI Local Architecture](./assets/nlapi-local-architecture.jpg)
-
 
 ## Steps:
 
 **1. Setup ngrok**
-   I'd recommend getting a permanent url (free) so you do not have to keep adjusting the url that is sent to the NLAPI. If you create a free url, add it to your env file as `NGROK_URL`
+I'd recommend getting a permanent url (free) so you do not have to keep adjusting the url that is sent to the NLAPI. If you create a free url, add it to your env file as `NGROK_URL`
+
+Link to ngrok: [ngrok.com](https://ngrok.com/)
 
 **2. Setup NLAPI Account**
-   **2.a** Set these env vars: `NLAPI_DEV_USER` && `NLAPI_DEV_PASSWORD` in your .env
-   If you do not have an account create one either with the curl command below (replace your username and password) and save your user and password to the .env file with the variables above. Or go to [api.nlapi.io/docs](https://api.nlapi.io/docs#/Portal/signup_user_portal_sessions_signup_post) and use the /portal/sessions/signup swagger ui to create an account.
+
+**2.a** Set these env vars: `NLAPI_DEV_USER` && `NLAPI_DEV_PASSWORD` in your `.env` file. If you do not have an account, create one either with the curl command below (replace your username and password) and save your user and password to the `.env` file with the variables above. Or go to [api.nlapi.io/docs](https://api.nlapi.io/docs#/Portal/signup_user_portal_sessions_signup_post) and use the `/portal/sessions/signup` swagger ui to create an account.
 
 ```bash
 curl -X 'POST' \
@@ -35,9 +40,17 @@ curl -X 'POST' \
 }'
 ```
 
-**2.b** Run `setup-nlapi-portal` to create an application and api-key.
-*NOTE: If you don't have your NLAPI_SCHEMA_NAME.swagger.json file generated, this script will fail. Run `npm run dev` will automatically create and/or update it.*
+**2.b** Run the following command to create an application and api-key:
+
+```bash
+npm run setup-nlapi-portal
+```
+
+> [!NOTE]
+> If you don't have your NLAPI_SCHEMA_NAME.swagger.json file generated, this script will fail. Running `npm run dev` will automatically create and/or update it.
+
 You should get an output similar to this:
+
 ```bash
 Schema uploaded: { message: 'Schema already exists.' }
 API Key created: { api_key: 'your-key' }
@@ -45,27 +58,28 @@ Save these to your .env file:
         NLAPI_APPLICATION_ID=19
         NLAPI_API_KEY=your-key
 ```
-If you have these environment variables set and run the script again it will skip the application and api key creation and only update the schema. 
 
-*2.c* Make sure to save the `NLAPI_API_KEY` && `NLAPI_APPLICATION_ID` to your .env from step 2.b.
+If you have these environment variables set and run the script again it will skip the application and api key creation and only update the schema.
 
-**3. Set Up Github Repository Secrets**
+**2.c** Make sure to save the `NLAPI_API_KEY` && `NLAPI_APPLICATION_ID` to your `.env` from step 2.b.
+
+**3. Set Up Gitub Repository Secrets**
 This step is neccessary for deployments.
 
 Save `NLAPI_DEV_USER`, `NLAPI_DEV_PASSWORD`, `NLAPI_SCHEMA_NAME`, `NLAPI_APPLICATION_ID` to your github repository secrets.
-This will enable automatically sending your openapi spec to the NLAPI when pushing updates so the NLAPI always has the latest schema of your application. (some extra versioning features are coming soon; But for now, if you upload a schema with the same name as a previously uploaded schema, it will **replace** that schema. If you upload a schema with a different name, it will **add** to the current latest schemas to allow you to upload multiple schemas to one NLAPI application.)
+This will enable automatically sending your openapi spec to the NLAPI when pushing updates so the NLAPI always has the latest schema of your application. (Some extra versioning features are coming soon, but for now, if you upload a schema with the same name as a previously uploaded schema, it will **replace** that schema. If you upload a schema with a different name, it will **add** to your current latest schemas, which allows you to upload multiple schemas to one NLAPI application.)
 
-If you are only doing local development you will need to either manually send your openapi schema to the NLAPI each time you make a change to the routes.  
+If you are only doing local development, you will need to manually send your openapi schema to the NLAPI each time you make a change to the routes.
 
-**If you are using this as a template for another repository make note that the `.github/workflows/update-schema.yml` file only runs on specified branches so you will need to adjust to meet your development needs.*
+\*_If you are using this as a template for another repository make note that the `.github/workflows/update-schema.yml` file only runs on specified branches so you will need to adjust to meet your development needs._
 
-**4. Confirm everything is working** by seeding your database with `npm run seed`. Then go to localhost:5573 and login with bugs.bunny@example.com pw: CarrotLover123 | Once logged in you should see a chat bubble. Type 'what is my profile information' You should see a response in a few seconds giving basic information of Bugs Bunny. In your terminal you should see the output of the NLAPI. 
+**4. Confirm everything is working** by seeding your database with `npm run seed`. Then go to http://localhost:5573 and login with `bugs.bunny@example.com` and password: `CarrotLover123`. Once logged in you should see a chat bubble. Type 'what is my profile information'. You should see a response in a few seconds giving basic information of Bugs Bunny. In your terminal you should see the output of the NLAPI.
 
-**5. Checkout out stage-3** to add more endpoints, add streaming and more. 
+**5. Checkout out stage-3** to add more endpoints, add streaming and more.
 
 ## Features Added:
 
-- **NLAPI Integration**: Send user input to the nlapi to interact with your application.
+- **NLAPI Integration**: Send user input to the NLAPI to interact with your application.
 - **Github Action to Auto-Update Schema**: Look at .github/actions to see how you can automate the updates of your schema to the NLAPI
 - **Frontend Signup / Login / Dashboard**: Added some UI to the app to see how this would feel in the UI.
 
@@ -73,16 +87,17 @@ If you are only doing local development you will need to either manually send yo
 
 - Your .env should have all the keys the .env.example does. Run `npm run check-env` to check.
 - You will also need to add these keys to your github secrets to make the github action work properly.
-- Schemas are unique by name to allow you to have multiple schemas in an application in case you want to enable micro services. Note that you the authentication system needs to be the same across the multiple schemas. I.e. the same user authorization data you send the NLAPI should work across all schemas. (More features are coming with schema versioning. For the latest checkout our docs at [nlapi.io](nlapi.io) and/or join our [discord community](https://discord.gg/bcjmGnbj8d))
+- Schemas are unique by name which allows you to have multiple schemas in a single application. This is useful for microservices as it grants the NLAPI access to multiple services at the same time. Note that the authentication system needs to be the same across the multiple schemas. I.e. the same user authorization data you send the NLAPI should work across all schemas. (More features are coming with schema versioning. For the latest checkout our docs at [nlapi.io](nlapi.io) and/or join our [discord community](https://discord.gg/bcjmGnbj8d))
 - Note in App.jsx where we hide the chat bubble
-- Keep in mind the thread ID is how you keep a conversation going. Up to the developer to save those for now. ThreadId is saved to state in [ChatBubble.jsx](/packages/client/src/components/ChatBubble.jsx). 
-- nGrok config is now in the `npm run command` If you'd rather run `ngrok http --url your-url 5573` You'll need to remove it from the dev command
-- Seed your db with the command `npm run seed` 
-
+- Keep in mind the thread ID is how you keep a conversation going. It is up to the developer to save those for now. ThreadId is saved to state in [ChatBubble.jsx](/packages/client/src/components/ChatBubble.jsx).
+- nGrok config is now in the `npm run command` If you'd rather run `ngrok http --url your-url 5573` You'll need to remove it from the dev command.
+- Seed your db with the command `npm run seed`
 
 ## Common Errors:
-**ngrok authentication failed**. 
-If you get an error like this: 
+
+**ngrok authentication failed**.
+If you get an error like this:
+
 ```
 [dev:ngrok ] ERROR:  authentication failed: The authtoken you specified is properly formed, but it is invalid.
 [dev:ngrok ] ERROR:  Your authtoken: 2o01B85i3zkRdCSadIHu5ZGoEe_8BaNUmXdoNqhoe3qumii
@@ -92,14 +107,16 @@ If you get an error like this:
 [dev:ngrok ] ERROR:      - You are using ngrok link and this credential was explicitly revoked
 [dev:ngrok ] ERROR:  Go to your ngrok dashboard and double check that your authtoken is correct:
 [dev:ngrok ] ERROR:  https://dashboard.ngrok.com/get-started/your-authtoken
-[dev:ngrok ] ERROR:  
+[dev:ngrok ] ERROR:
 [dev:ngrok ] ERROR:  ERR_NGROK_107
 [dev:ngrok ] ERROR:  https://ngrok.com/docs/errors/err_ngrok_107
-[dev:ngrok ] ERROR:  
+[dev:ngrok ] ERROR:
 ```
-It's likely you did not set your ngrok authentication token correctly in your ngrok.yml file. 
+
+It's likely you did not set your ngrok authentication token correctly in your ngrok.yml file.
 
 Once you have ngrok downloaded on your computer you should be able to find the authentication token from any of these files: For the main operating systems we support, their default file locations are:
+
 ```
 Linux: ~/.config/ngrok/ngrok.yml
 MacOS (Darwin): ~/Library/Application Support/ngrok/ngrok.yml
@@ -107,6 +124,7 @@ Windows: "%HOMEPATH%\AppData\Local\ngrok\ngrok.yml"
 ```
 
 **Error reading configuration file 'ngrok.yml': open /home/jase/Apps/nlapi-guide-openapi/ngrok.yml: no such file or directory**
-If you are getting this error, it means you have not set your ngrok.yml file (this is gitignored because it contains your auth token) You can copy the ngrok.yml.example file and then set your authentication token properly with the instructions in the above answer.
+
+If you are getting this error, it means you have not set your ngrok.yml file (this is gitignored because it contains your auth token). You can copy the ngrok.yml.example file and then set your authentication token properly with the instructions in the above answer.
 
 Another possibility is you named your file .yaml instead of .yml
