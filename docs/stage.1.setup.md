@@ -1,4 +1,5 @@
 # [Overview](https://drive.google.com/file/d/1jklVbtYduc8neXJLCht-CSeSh-67sz4E/view?usp=drive_link)
+
 In this stage we set up the project and add a simple User Authentication with a jwt token.
 
 ## Steps
@@ -41,16 +42,16 @@ In this stage we set up the project and add a simple User Authentication with a 
    - Frontend: [http://localhost:5573](http://localhost:5573)
    - API Docs: [http://localhost:5573/api/docs](http://localhost:5573/api/docs)
 
-## Features Added: 
+## Features Added:
 
 - **User Authentication**: JWT-based authentication with hashed passwords (using bcrypt).
 - **Database Integration**: PostgreSQL setup with Sequelize ORM, including User and Company models.
 - **API Documentation**: Swagger UI integration for auto-generated OpenAPI docs.
 - **Proxy Setup**: Create React App proxy for seamless API requests during development.
 
+## Notes:
 
-## Notes: 
 - Frontend (FE) React app is in `/client` folder
 - FE is powered by vite (created by `npm create vite@latest . -- --template react`)
-- localhost:5573/api/docs gets you to swagger docs to use api
+- Access the API documentation and make requests via Swagger UI at [localhost:5573/api/docs](http://localhost:5573/api/docs)
 - Using different ports to limit the potential of running into other applications 5573, 3303, 5444
