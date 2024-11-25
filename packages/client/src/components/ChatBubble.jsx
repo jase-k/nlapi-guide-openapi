@@ -88,13 +88,13 @@ const StatusMessage = styled('div')(({ theme }) => ({
 
 export default function Component() {
   const { setEndpoints } = useEndpointStore();
+  const { context: botContext } = useBotContextStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [statusMessage, setStatusMessage] = useState('');
   const [threadId, setThreadId] = useState(null);
   const [isStreaming, setIsStreaming] = useState(false);
-  const context = useBotContextStore((state) => state.context);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function Component() {
         let body = {
           userInput: message,
           threadId: threadId,
-          context: context,
+          context: botContext,
           options: {
             stream: isStreaming,
           },
