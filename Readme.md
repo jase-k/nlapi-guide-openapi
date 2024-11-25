@@ -12,7 +12,7 @@ This will not be an in-dept 'how to code' walkthrough, so you should be familiar
 You don't need to be an expert in the above technology as you should be able to take the concepts you learn in each step and take those to any project that you are working on. 
 
 ## Demo: 
-[Screencast from 11-25-2024 05:13:16 AM.webm](https://github.com/user-attachments/assets/edeb99fd-536d-41ff-b2c6-5222e92612af)
+[Demo.webm](https://github.com/user-attachments/assets/edeb99fd-536d-41ff-b2c6-5222e92612af)
 
 
 ## Questions: 
