@@ -155,7 +155,7 @@ export default function Component() {
 
       sendMessage();
     },
-    [message, isStreaming, threadId, setEndpoints]
+    [message, isStreaming, threadId, setEndpoints, botContext]
   );
 
   const handleSendingMessage = async (body) => {
