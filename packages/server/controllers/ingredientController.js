@@ -7,9 +7,13 @@ exports.createIngredient = async (req, res) => {
     const ingredient = await Ingredient.create({ name });
     res.status(201).json(ingredient);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: `Failed to create ingredient: ${error.message}` });
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(400).json({ error: 'Ingredient already exists' });
+    } else {
+      res
+        .status(500)
+        .json({ error: `Failed to create ingredient: ${error.message}` });
+    }
   }
 };
 
