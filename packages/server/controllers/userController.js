@@ -65,6 +65,8 @@ exports.searchUsers = async (req, res) => {
 // Get own user information
 exports.getUserProfile = async (req, res) => {
   try {
+    console.log('getUserProfile');
+    console.log(req.user);
     const userId = req.user.id;
     const user = await User.findByPk(userId);
     const nonSensitiveInfo = getNonSensitiveInfo(user);

@@ -62,6 +62,9 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Middleware to parse JSON
 app.use(express.json());
 
+// Add middleware to parse URL-encoded data
+app.use(express.urlencoded({ extended: true }));
+
 // Routes
 const userRoutes = require('./routes/userRoutes');
 const familyRoutes = require('./routes/familyRoutes');

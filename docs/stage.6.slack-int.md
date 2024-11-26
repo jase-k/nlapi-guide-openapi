@@ -20,6 +20,7 @@ TODO: Finish
 ## Notes:
 
 - ?slackSuccess param on dashboard determines the message
+- Added    app.use(express.urlencoded({ extended: true }));
 
 ## Demo
 
