@@ -71,6 +71,7 @@ const ingredientRoutes = require('./routes/ingredientRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 const recipeIngredientRoutes = require('./routes/recipeIngredients');
 const shoppingListRoutes = require('./routes/shoppingListRoutes');
+const oAuthRoutes = require('./routes/oAuthRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/families', familyRoutes);
@@ -80,5 +81,6 @@ app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/recipe-ingredients', recipeIngredientRoutes);
 app.use('/api/shopping-list', shoppingListRoutes);
+app.use('/api/oauth', oAuthRoutes);
 
 module.exports = app;

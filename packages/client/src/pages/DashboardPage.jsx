@@ -2,6 +2,7 @@
 import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CompanyDetails from '../components/FamilyDetails';
+import UserDetails from '../components/UserDetails';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +32,17 @@ const DashboardPage = () => {
   };
 
   const classes = useStyles();
+
+  const slackSuccess = new URLSearchParams(window.location.search).get(
+    'slackSuccess'
+  );
+  if (slackSuccess === 'false') {
+    alert('Uh oh! Failed to connect to Slack');
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else if (slackSuccess === 'true') {
+    alert('Yay!Successfully connected to Slack');
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 
   return (
     <>
@@ -66,6 +78,7 @@ const DashboardPage = () => {
             Welcome to the Dashboard!
           </Typography>
           <CompanyDetails />
+          <UserDetails />
         </Box>
       </Container>
     </>
