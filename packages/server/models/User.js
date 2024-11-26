@@ -42,6 +42,9 @@ const bcrypt = require('bcrypt');
  *         familyId:
  *           type: integer
  *           description: ID of the family the user belongs to
+ *         slackConnected:
+ *           type: boolean
+ *           description: Whether the user is connected to Slack
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -55,6 +58,7 @@ const bcrypt = require('bcrypt');
  *         name: Bugs Bunny
  *         email: bugs.bunny@example.com
  *         familyId: 1
+ *         slackConnected: false
  *         createdAt: 2023-01-01T00:00:00.000Z
  *         updatedAt: 2023-01-01T00:00:00.000Z
  *     UserRegister:
@@ -109,6 +113,10 @@ const User = sequelize.define('users', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  slackId: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
 

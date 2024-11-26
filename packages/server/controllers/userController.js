@@ -67,8 +67,9 @@ exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await User.findByPk(userId);
+    const nonSensitiveInfo = getNonSensitiveInfo(user);
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json(nonSensitiveInfo);
     } else {
       res.status(404).json({ error: 'User not found' });
     }
@@ -86,12 +87,12 @@ exports.updateUserProfile = async (req, res) => {
     const userId = req.user.id; // Assuming user ID is available in req.user
     const { name, email } = req.body;
     const user = await User.findByPk(userId);
-
+    const nonSensitiveInfo = getNonSensitiveInfo(user);
     if (user) {
       user.name = name || user.name;
       user.email = email || user.email;
       await user.save();
-      res.status(200).json(user);
+      res.status(200).json(nonSensitiveInfo);
     } else {
       res.status(404).json({ error: 'User not found' });
     }
@@ -99,4 +100,12 @@ exports.updateUserProfile = async (req, res) => {
     console.error('Error updating user profile:', error);
     res.status(500).json({ error: 'Failed to update user profile' });
   }
+};
+
+const getNonSensitiveInfo = (user) => {
+  //(filter out password and slackId so sensitive info is not returned)
+  // eslint-disable-next-line no-unused-vars
+  const { password, slackId, ...userWithoutSensitiveInfo } = user.toJSON();
+  const slackConnected = slackId ? true : false;
+  return { ...userWithoutSensitiveInfo, slackConnected };
 };
