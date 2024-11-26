@@ -1,30 +1,29 @@
-const fetch = require('node-fetch');
 const { PassThrough } = require('stream');
+const {
+  sendNlapiRequest: sendNlapiRequestService,
+} = require('../services/nlapiService');
 
+/**
+ * Controller to handle NLAPI requests.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const sendNlapiRequest = async (req, res) => {
-  const { userInput, context, threadId } = req.body;
+  const { userInput, context, threadId, options } = req.body;
   const authToken = req.headers.authorization.split(' ')[1];
+  console.log(authToken);
 
   console.log(userInput, context, threadId);
   try {
-    const response = await fetch('https://api.nlapi.io/nlapi', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`, // Pass the user's auth token
-        'nlapi-key': process.env.NLAPI_API_KEY,
-      },
-      // NOTE: Transforming the data to snake case for the NLAPI
-      body: JSON.stringify({
-        user_input: userInput,
-        context: context || [], // Optional context
-        thread_id: threadId || null, // Optional thread ID
-        options: {
-          stream: req.body.options?.stream || false,
-        },
-      }),
-    });
-    if (req.body.options?.stream) {
+    const response = await sendNlapiRequestService(
+      userInput,
+      context,
+      threadId,
+      options,
+      authToken
+    );
+
+    if (options?.stream) {
       // Handle streaming response
       const passThrough = new PassThrough();
       response.body.pipe(passThrough);
