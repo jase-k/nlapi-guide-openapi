@@ -50,8 +50,12 @@ const MessageBubble = styled('div')(({ theme, isSender }) => ({
   maxWidth: '70%',
   padding: theme.spacing(1),
   borderRadius: theme.spacing(2),
-  backgroundColor: isSender ? theme.palette.primary.main : theme.palette.grey[300],
-  color: isSender ? theme.palette.primary.contrastText : theme.palette.text.primary,
+  backgroundColor: isSender
+    ? theme.palette.primary.main
+    : theme.palette.grey[300],
+  color: isSender
+    ? theme.palette.primary.contrastText
+    : theme.palette.text.primary,
   alignSelf: isSender ? 'flex-end' : 'flex-start',
 }));
 
@@ -83,7 +87,7 @@ export default function Component() {
         threadId: threadId,
       };
       try {
-        const response = await fetch('http://localhost:3303/api/nlapi', {
+        const response = await fetch('/api/nlapi', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
