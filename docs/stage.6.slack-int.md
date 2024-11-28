@@ -50,4 +50,7 @@ The user asks for a list of recipes. Rather than sending plain text back the sla
 
 ## Demo Video
 
+https://github.com/user-attachments/assets/71ed50ff-bca0-4211-8850-fcb2c4b40b24
+
+
 
