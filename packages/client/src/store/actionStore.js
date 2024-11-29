@@ -4,7 +4,7 @@ import { combine } from 'zustand/middleware';
 const useActionStore = create(
   combine(
     {
-      latestActions: [Array(9).fill(null)],
+      latestActions: Array(9).fill(null),
     },
     (set) => ({
       setLatestActions: (actions) => set({ latestActions: actions }),
