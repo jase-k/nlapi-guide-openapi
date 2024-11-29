@@ -34,7 +34,7 @@ const AppLayout = () => {
         <Route path="/" element={<LoginPage />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/shoppinglist" element={<ShoppingListPage />} />
-        <Route path="/recipe/:id" element={<RecipeDetailsPage />} />
+        <Route path="/recipes/:id" element={<RecipeDetailsPage />} />
         {/* Add more routes here as needed */}
       </Routes>
       {/* Conditionally render ChatBubble */}

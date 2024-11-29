@@ -4,7 +4,7 @@ import { combine } from 'zustand/middleware';
 const useEndpointStore = create(
   combine(
     {
-      latestEndpoints: [Array(9).fill(null)],
+      latestEndpoints: Array(9).fill(null),
     },
     (set) => ({
       setEndpoints: (endpoints) => set({ latestEndpoints: endpoints }),

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import {
   Fab,
@@ -19,6 +19,8 @@ import ReactMarkdown from 'react-markdown';
 import { EventSourceParserStream } from 'eventsource-parser/stream';
 import useEndpointStore from '../store/endpointStore';
 import useBotContextStore from '../store/botContextStore';
+import { useNavigate } from 'react-router-dom';
+import { getNavigationSuggestions } from '../config/navigationConfig';
 
 const ChatContainer = styled(Paper)(({ theme }) => ({
   position: 'fixed',
@@ -86,8 +88,26 @@ const StatusMessage = styled('div')(({ theme }) => ({
   },
 }));
 
+const NavigationSuggestions = styled('div')(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+}));
+
+const SuggestionButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[2],
+  color: theme.palette.text.primary,
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
 export default function Component() {
-  const { setEndpoints } = useEndpointStore();
+  const navigate = useNavigate();
+  const { latestEndpoints, setEndpoints } = useEndpointStore();
+  const suggestions = useMemo(() => getNavigationSuggestions(latestEndpoints), [latestEndpoints]);
   const { context: botContext } = useBotContextStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
@@ -98,7 +118,9 @@ export default function Component() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 0 || statusMessage != '') {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages, statusMessage]);
 
   const handleSubmit = useCallback(
@@ -140,6 +162,7 @@ export default function Component() {
               latestEndpoints = endpoints_called.map((endpoint) => ({
                 path: endpoint['path'],
                 method: endpoint['method'],
+                response: endpoint['response'],
               }));
             }
           }
@@ -210,6 +233,7 @@ export default function Component() {
           latestEndpoints = endpoints_called.map((endpoint) => ({
             path: endpoint['path'],
             method: endpoint['method'],
+            response: endpoint['response'],
           }));
         }
       } else if (event === 'error') {
@@ -290,6 +314,21 @@ export default function Component() {
               <SendIcon />
             </IconButton>
           </ChatInput>
+          <Grow in={suggestions.length > 0}>
+            <NavigationSuggestions>
+              {suggestions.map((suggestion, index) => (
+                <SuggestionButton
+                  key={index}
+                  variant="contained"
+                  onClick={() => {
+                    navigate(suggestion.route);
+                  }}
+                >
+                  {suggestion.description}
+                </SuggestionButton>
+              ))}
+            </NavigationSuggestions>
+          </Grow>
         </ChatContainer>
       </Grow>
     </>
