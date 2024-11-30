@@ -107,7 +107,10 @@ const SuggestionButton = styled(Button)(({ theme }) => ({
 export default function Component() {
   const navigate = useNavigate();
   const { latestActions, setLatestActions } = useActionStore();
-  const suggestions = useMemo(() => getNavigationSuggestions(latestActions), [latestActions]);
+  const suggestions = useMemo(
+    () => getNavigationSuggestions(latestActions),
+    [latestActions]
+  );
   const { context: botContext } = useBotContextStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
