@@ -107,7 +107,10 @@ const SuggestionButton = styled(Button)(({ theme }) => ({
 export default function Component() {
   const navigate = useNavigate();
   const { latestEndpoints, setEndpoints } = useEndpointStore();
-  const suggestions = useMemo(() => getNavigationSuggestions(latestEndpoints), [latestEndpoints]);
+  const suggestions = useMemo(
+    () => getNavigationSuggestions(latestEndpoints),
+    [latestEndpoints]
+  );
   const { context: botContext } = useBotContextStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
@@ -182,7 +185,7 @@ export default function Component() {
   );
 
   const handleSendingMessage = async (body) => {
-      const response = await fetch('/api/nlapi', {
+    const response = await fetch('/api/nlapi', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

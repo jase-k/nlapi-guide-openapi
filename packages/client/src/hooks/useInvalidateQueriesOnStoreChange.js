@@ -19,7 +19,7 @@ const useInvalidateQueriesOnStoreChange = () => {
         configs.forEach(({ endpoints, methods }) => {
           const shouldInvalidate = latestEndpoints.some((endpoint) => {
             if (!endpoint || !endpoint.path || !endpoint.method) return false;
-            
+
             return endpoints.some((pattern) => {
               const regex = new RegExp(`^${pattern.replace('*', '.*')}$`);
               return (
