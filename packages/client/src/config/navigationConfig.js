@@ -10,19 +10,19 @@ export const navigationConfig = {
       {
         pattern: '/api/recipes/*',
         methods: ['PUT', 'GET'],
-        route: '/recipes/$$id',
+        route: '/recipes/:id',
         description: 'View recipe details'
       },
       {
         pattern: '/api/recipes',
         methods: ['POST'],
-        route: '/recipes/$$id',
+        route: '/recipes/:id',
         description: 'View new recipe details'
       },
       {
         pattern: '/api/recipe-ingredients',
         methods: ['POST'],
-        route: '/recipes/$$recipeId',
+        route: '/recipes/:recipeId',
         description: 'View recipe details'
       }
     ]
@@ -62,7 +62,7 @@ export const getNavigationSuggestions = (endpoints) => {
           console.log('endpoint.response', responseData);
           
           const replacePlaceholders = (route, responseData) => {
-            return route.replace(/\$\$([a-zA-Z0-9_.]+)/g, (_, path) => {
+            return route.replace(/:([a-zA-Z0-9_.]+)/g, (_, path) => {
               console.log('path', path);
               // Split the path by '.' to navigate through the response object
               return path.split('.').reduce((acc, key) => acc[key], responseData);
