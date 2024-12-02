@@ -93,6 +93,10 @@ If you are only doing local development, you will need to manually send your ope
 - nGrok config is now in the `npm run command` If you'd rather run `ngrok http --url your-url 5573` You'll need to remove it from the dev command.
 - Seed your db with the command `npm run seed`
 
+## Functionality Demo: 
+[Screencast from 12-02-2024 07:21:42 AM.webm](https://github.com/user-attachments/assets/d9351c95-d904-414a-82c5-7adeffd3c543)
+
+
 ## Common Errors:
 
 **ngrok authentication failed**.
