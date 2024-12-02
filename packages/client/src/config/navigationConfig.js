@@ -4,8 +4,8 @@ export const navigationConfig = {
       {
         pattern: '/api/recipes',
         methods: ['GET'],
-        route: '/recipes',
-        description: 'View all recipes',
+        route: '/recipes', // Destination route
+        description: 'View all recipes', // Text on Button
       },
       {
         pattern: '/api/recipes/*',
