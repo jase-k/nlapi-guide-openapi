@@ -1,4 +1,4 @@
-## [Overview](https://drive.google.com/file/d/1UpjrIJQ4gIcPB6IvEkNNxIwILXevkIaK/view?usp=drive_link)
+## [Overview](https://drive.google.com/file/d/1UpjrIJQ4gIcPB6IvEkNNxIwILXevkIaK/view?usp=drive_link) 
 
 In this step we will add streaming capabilities from the NLAPI as well as more functionality to the app by adding recipes, ingredients and a family shopping list.
 
@@ -28,6 +28,10 @@ In this step we will add streaming capabilities from the NLAPI as well as more f
 - Note: Current limitation to the Shopping list is that you can only add ingredients from a recipeIngredient
 - Remember to run `npm run update-schema`
 - Added UI - Still have to refresh the page when using chat. Will fix this is stage-4
+
+## Functionality Demonstration
+[Screencast of Functionality](https://github.com/user-attachments/assets/0fbee2d7-795a-49cf-adbd-7506b0270891)
+
 
 ## Common Errors:
 
