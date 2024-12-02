@@ -119,7 +119,8 @@ const handleSlackWebhook = async (req, res) => {
     console.log('NLAPI RESPONSE', nlapiResponseData);
   } catch (error) {
     console.error('Error handling Slack webhook:', error);
-    messageToRespondWith = 'Sorry, I had an error processing your request. Please try again later.';
+    messageToRespondWith =
+      'Sorry, I had an error processing your request. Please try again later.';
   }
 
   if (response_url && nlapiResponseData) {
@@ -142,19 +143,24 @@ const handleSlackWebhook = async (req, res) => {
 
 const findThreadTs = async (channelId, text) => {
   try {
-    const response = await fetch('https://slack.com/api/conversations.history', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
-      },
-      body: JSON.stringify({
-        channel: channelId,
-        limit: 10,
-      }),
-    });
+    const response = await fetch(
+      'https://slack.com/api/conversations.history',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
+        },
+        body: JSON.stringify({
+          channel: channelId,
+          limit: 10,
+        }),
+      }
+    );
 
     const responseData = await response.json();
+    console.debug('RESPONSE DATA', responseData);
+
     for (const message of responseData.messages) {
       let messageText = message.text;
       if (messageText.startsWith('/')) {
@@ -174,7 +180,12 @@ const findThreadTs = async (channelId, text) => {
 };
 
 // Function to send a response back to Slack
-const sendResponseToSlack = async (responseUrl, message, channelId, threadTs) => {
+const sendResponseToSlack = async (
+  responseUrl,
+  message,
+  channelId,
+  threadTs
+) => {
   console.log('SENDING RESPONSE TO SLACK', responseUrl, message);
   try {
     const response = await fetch('https://slack.com/api/chat.postMessage', {
