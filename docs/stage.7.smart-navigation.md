@@ -1,4 +1,4 @@
-# [Smart Navigation!](https://drive.google.com/file/d/1UeXOrniMG68STgCANyXM4jYbmT1nEDC0/view?usp=sharing)
+# [Smart Navigation! (9 min Video)](https://drive.google.com/file/d/1UeXOrniMG68STgCANyXM4jYbmT1nEDC0/view?usp=sharing)
 
 ## Steps:
 
