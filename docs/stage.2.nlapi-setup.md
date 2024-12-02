@@ -1,4 +1,4 @@
-## [Overview](https://drive.google.com/file/d/1mdbI9zAPkK8Pc5DUAu5ynWL-ZV9Mv5GP/view?usp=sharing)
+## [Overview (16.5 min Video)](https://drive.google.com/file/d/1mdbI9zAPkK8Pc5DUAu5ynWL-ZV9Mv5GP/view?usp=sharing)
 
 In this step we will connect the NLAPI. Since the NLAPI will be making api calls to your server (which is currently only deployed locally) we will need to use a service called [nGrok](https://ngrok.com/) to route traffic from a public web address to a specific port on your machine (5573 unless you changed the port settings in the client package).
 
