@@ -8,7 +8,7 @@
 1. Go to https://api.slack.com/apps and Create New App from manifest
 2. Copy and Paste in the content from slack_manifest.yml
 3. Replace the replace-me-with-ngrok-url.com with your env.NGROK_URL value
-4. From the Basic Information tab Copy the Client ID, Client Secret to your env file as SLACK_CLIENT_ID && SLACK_CLIENT_SECRET
+4. From the Basic Information tab Copy the Client ID, Client Secret to your env file as SLACK_CLIENT_ID && SLACK_CLIENT_SECRET && SLACK_BOT_TOKEN (found in authorization tab)
 5. Add SLACK_REDIRECT_URI_PATH to .env from env.example
 6. IN `packages/client/.env` add VITE_SLACK_CLIENT_ID && VITE_SLACK_REDIRECT_URI
 
@@ -16,6 +16,7 @@
 1. Go to localhost:5573/dashboard (after logging in)
 2. Click on Connect to Slack -> You should be redirected to the /dashboard with a success message
 3. If successful you should see 'Slack Connected'  in the User Details section.
+4. Use slash command to list your profile details in slack with `/nlapi what are my profile details`
 
 **4. Distribute Slack App**:
 - You can use the slack app console to distribute your app as you see fit. 
@@ -34,6 +35,7 @@
 - Added app.use(express.urlencoded({ extended: true })); for slack callback flow
 - Added Slack Bot Token in env.example
 - You will need to create a slack app (use the slack_manifest.yml as a template)
+- Checkout slackController.js
 
 ## Potential For More
 
