@@ -1,4 +1,4 @@
-# [Integrate with Slack!]()
+# [Smart Navigation!](https://drive.google.com/file/d/1UeXOrniMG68STgCANyXM4jYbmT1nEDC0/view?usp=sharing)
 
 ## Steps:
 
@@ -16,7 +16,7 @@
 
 ## Notes:
 - See navigationConfig.js for details on how this is implemented. 
-- For dynamic routes we use $$[field] as a placeholder, so we can replace based on the response from the endpoint. (i.e. recipes/$$id)
+- For dynamic routes we use `:field` as a placeholder, so we can replace based on the response from the endpoint. (i.e. recipes/:id) in theory you could do
 - See ChatBubble.jsx for how this is used in the UI. 
 
 ## Potential For More
