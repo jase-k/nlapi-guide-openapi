@@ -48,9 +48,8 @@ async function createApplication(accessToken, developerId) {
     body: JSON.stringify({
       name: 'My Next Gen Application',
       api_url: process.env.NGROK_URL, // Use your ngrok URL
-      description: 'Implementing the NLAPI via the NLAPI Workshop!',
+      project_description: 'Implementing the NLAPI via the NLAPI Workshop!',
       api_type: 'openapi',
-      developer_id: developerId, // Use your developer ID
     }),
   });
 
@@ -95,7 +94,7 @@ async function createApiKey(applicationId, accessToken) {
 
   const data = await response.json();
   console.log('API Key created:', data);
-  return data.api_key;
+  return data.key;
 }
 
 (async () => {
