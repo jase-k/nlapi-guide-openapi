@@ -39,6 +39,9 @@ const bcrypt = require('bcrypt');
  *         email:
  *           type: string
  *           description: User's email
+ *         password:
+ *           type: string
+ *           description: User's password
  *         familyId:
  *           type: integer
  *           description: ID of the family the user belongs to
