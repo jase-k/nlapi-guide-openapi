@@ -8,17 +8,19 @@ const RecipeIngredient = require('./RecipeIngredient');
  *   schemas:
  *     ShoppingListItemInput:
  *       type: object
- *       required:
- *       properties:
  *       oneOf:
  *         - properties:
  *             recipeIngredientId:
  *               type: integer
  *               description: ID of the recipe ingredient
+ *           required:
+ *             - recipeIngredientId
  *         - properties:
  *             recipeId:
  *               type: integer
  *               description: ID of the recipe
+ *           required:
+ *             - recipeId
  *     ShoppingListItem:
  *       type: object
  *       required:

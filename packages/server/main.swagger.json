@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.1.0",
   "info": {
     "title": "NLAPI Guide API",
     "version": "1.0.0",
@@ -312,7 +312,7 @@
       },
       "Recipe": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": ["id", "title", "instructions"],
         "properties": {
           "id": {
             "type": "integer",
@@ -347,7 +347,7 @@
       },
       "RecipeFull": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": ["id", "title", "recipeIngredients", "instructions"],
         "properties": {
           "id": {
             "type": "integer",
@@ -428,7 +428,8 @@
             "description": "Name of the ingredient"
           },
           "quantity": {
-            "type": "float",
+            "type": "number",
+            "format": "float",
             "description": "Quantity of the ingredient in the recipe"
           },
           "unitOfMeasure": {
@@ -436,14 +437,16 @@
             "description": "Unit of measure for the ingredient"
           }
         },
-        "examples": [
-          {
-            "recipeId": 1,
-            "ingredientName": "Tomato",
-            "quantity": 200,
-            "unitOfMeasure": "grams"
+        "examples": {
+          "default": {
+            "value": {
+              "recipeId": 1,
+              "ingredientName": "Tomato",
+              "quantity": 200,
+              "unitOfMeasure": "grams"
+            }
           }
-        ]
+        }
       },
       "RecipeIngredientInput": {
         "type": "object",
@@ -458,7 +461,8 @@
             "description": "ID of the ingredient"
           },
           "quantity": {
-            "type": "float",
+            "type": "number",
+            "format": "float",
             "description": "Quantity of the ingredient in the recipe"
           },
           "unitOfMeasure": {
@@ -496,10 +500,6 @@
             "type": "integer",
             "description": "ID of the recipe"
           },
-          "ingredientId": {
-            "type": "integer",
-            "description": "ID of the ingredient"
-          },
           "createdAt": {
             "type": "string",
             "description": "Date and time of creation",
@@ -511,22 +511,22 @@
             "format": "date-time"
           }
         },
-        "examples": [
-          {
-            "quantity": 200,
-            "unitOfMeasure": "g",
-            "ingredient": {
-              "id": 1,
-              "name": "Tomato"
-            },
-            "recipeId": 1
+        "examples": {
+          "RecipeIngredientExample": {
+            "value": {
+              "quantity": 200,
+              "unitOfMeasure": "g",
+              "ingredient": {
+                "id": 1,
+                "name": "Tomato"
+              },
+              "recipeId": 1
+            }
           }
-        ]
+        }
       },
       "ShoppingListItemInput": {
         "type": "object",
-        "required": null,
-        "properties": null,
         "oneOf": [
           {
             "properties": {
@@ -534,7 +534,8 @@
                 "type": "integer",
                 "description": "ID of the recipe ingredient"
               }
-            }
+            },
+            "required": ["recipeIngredientId"]
           },
           {
             "properties": {
@@ -542,7 +543,8 @@
                 "type": "integer",
                 "description": "ID of the recipe"
               }
-            }
+            },
+            "required": ["recipeId"]
           }
         ]
       },

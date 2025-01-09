@@ -33,7 +33,6 @@ const sequelize = require('../config/database');
  *       required:
  *         - id
  *         - title
- *         - ingredients
  *         - instructions
  *       properties:
  *         id:
@@ -64,7 +63,7 @@ const sequelize = require('../config/database');
  *       required:
  *         - id
  *         - title
- *         - ingredients
+ *         - recipeIngredients
  *         - instructions
  *       properties:
  *         id:

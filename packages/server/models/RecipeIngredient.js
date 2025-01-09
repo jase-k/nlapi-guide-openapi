@@ -22,16 +22,19 @@ const Ingredient = require('./Ingredient');
  *           type: string
  *           description: Name of the ingredient
  *         quantity:
- *           type: float
+ *           type: number
+ *           format: float
  *           description: Quantity of the ingredient in the recipe
  *         unitOfMeasure:
  *           type: string
  *           description: Unit of measure for the ingredient
  *       examples:
- *         - recipeId: 1
- *           ingredientName: Tomato
- *           quantity: 200
- *           unitOfMeasure: "grams"
+ *         default:
+ *           value:
+ *             recipeId: 1
+ *             ingredientName: "Tomato"
+ *             quantity: 200.0
+ *             unitOfMeasure: "grams"
  *     RecipeIngredientInput:
  *       type: object
  *       required:
@@ -47,7 +50,8 @@ const Ingredient = require('./Ingredient');
  *           type: integer
  *           description: ID of the ingredient
  *         quantity:
- *           type: float
+ *           type: number
+ *           format: float
  *           description: Quantity of the ingredient in the recipe
  *         unitOfMeasure:
  *           type: string
@@ -57,7 +61,7 @@ const Ingredient = require('./Ingredient');
  *           value:
  *             recipeId: 1
  *             ingredientId: 1
- *             quantity: 200
+ *             quantity: 200.0
  *             unitOfMeasure: "grams"
  *     RecipeIngredient:
  *       type: object
@@ -78,9 +82,6 @@ const Ingredient = require('./Ingredient');
  *         recipeId:
  *           type: integer
  *           description: ID of the recipe
- *         ingredientId:
- *           type: integer
- *           description: ID of the ingredient
  *         createdAt:
  *           type: string
  *           description: Date and time of creation
@@ -90,10 +91,12 @@ const Ingredient = require('./Ingredient');
  *           description: Date and time of last update
  *           format: date-time
  *       examples:
- *         - quantity: 200
- *           unitOfMeasure: "g"
- *           ingredient: {id: 1, name: "Tomato"}
- *           recipeId: 1
+ *         RecipeIngredientExample:
+ *           value:
+ *             quantity: 200
+ *             unitOfMeasure: "g"
+ *             ingredient: {id: 1, name: "Tomato"}
+ *             recipeId: 1
  */
 const RecipeIngredient = sequelize.define(
   'recipe_ingredients',
