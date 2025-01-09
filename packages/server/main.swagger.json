@@ -347,7 +347,7 @@
       },
       "RecipeFull": {
         "type": "object",
-        "required": ["id", "title", "ingredients", "instructions"],
+        "required": ["id", "title", "recipeIngredients", "instructions"],
         "properties": {
           "id": {
             "type": "integer",
