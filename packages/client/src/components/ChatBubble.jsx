@@ -17,7 +17,7 @@ import {
 } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import { EventSourceParserStream } from 'eventsource-parser/stream';
-import useEndpointStore from '../store/endpointStore';
+import useActionStore from '../store/actionStore';
 import useBotContextStore from '../store/botContextStore';
 
 const ChatContainer = styled(Paper)(({ theme }) => ({
@@ -87,7 +87,7 @@ const StatusMessage = styled('div')(({ theme }) => ({
 }));
 
 export default function Component() {
-  const { setEndpoints } = useEndpointStore();
+  const { setLatestActions } = useActionStore();
   const { context: botContext } = useBotContextStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
@@ -124,29 +124,30 @@ export default function Component() {
           const response = await handleSendingMessage(body);
 
           let thread_id;
-          let latestEndpoints;
+          let latestActions;
           if (isStreaming) {
             const reader = response.body
               ?.pipeThrough(new TextDecoderStream())
               ?.pipeThrough(new EventSourceParserStream());
-            [thread_id, latestEndpoints] = await handleStreamingEvents(reader);
+            [thread_id, latestActions] = await handleStreamingEvents(reader);
           } else {
             const data = await response.json();
             console.log('Non-Streaming Response from NLAPI:', data);
             setMessages(data.messages.reverse());
             thread_id = data.thread_id;
-            const endpoints_called = data.endpoints_called;
-            if (endpoints_called) {
-              latestEndpoints = endpoints_called.map((endpoint) => ({
-                path: endpoint['path'],
-                method: endpoint['method'],
+            const actions_called = data.actions_called;
+            if (actions_called) {
+              // Flatten the nested actions_called array and map to desired structure
+              latestActions = actions_called.flat().map((action) => ({
+                path: action.path,
+                method: action.method,
               }));
             }
           }
           // Set the thread id to the thread id from the response regardless of streaming or not
           setThreadId(thread_id);
-          if (latestEndpoints) {
-            setEndpoints(latestEndpoints);
+          if (latestActions) {
+            setLatestActions(latestActions);
           }
         } catch (error) {
           console.error('Error sending message to NLAPI:', error);
@@ -155,7 +156,7 @@ export default function Component() {
 
       sendMessage();
     },
-    [message, isStreaming, threadId, setEndpoints, botContext]
+    [message, isStreaming, threadId, setLatestActions, botContext]
   );
 
   const handleSendingMessage = async (body) => {
@@ -188,7 +189,7 @@ export default function Component() {
       });
     };
 
-    let latestEndpoints;
+    let latestActions;
     for await (const chunk of reader) {
       const { event, data } = chunk;
       const chunkEventData = JSON.parse(data);
@@ -205,11 +206,12 @@ export default function Component() {
         updateMessages(lastMessage, lastChunkEvent !== 'message_chunk');
       } else if (event === 'close') {
         threadId = chunkEventData.thread_id;
-        const endpoints_called = chunkEventData.endpoints_called;
-        if (endpoints_called) {
-          latestEndpoints = endpoints_called.map((endpoint) => ({
-            path: endpoint['path'],
-            method: endpoint['method'],
+        const actions_called = chunkEventData.actions_called;
+        if (actions_called) {
+          // Flatten the nested actions_called array and map to desired structure
+          latestActions = actions_called.flat().map((action) => ({
+            path: action.path,
+            method: action.method,
           }));
         }
       } else if (event === 'error') {
@@ -219,7 +221,7 @@ export default function Component() {
       lastChunkEvent = event;
     }
 
-    return [threadId, latestEndpoints];
+    return [threadId, latestActions];
   };
 
   return (
