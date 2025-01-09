@@ -144,7 +144,7 @@ export default function Component() {
   );
 
   const handleSendingMessage = async (body) => {
-      const response = await fetch('/api/nlapi', {
+    const response = await fetch('/api/nlapi', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

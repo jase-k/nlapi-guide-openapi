@@ -13,7 +13,7 @@ app.use(cors());
 // Swagger options
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: '3.0.0',
+    openapi: '3.1.0',
     info: {
       title: 'NLAPI Guide API',
       version: '1.0.0',
