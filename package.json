@@ -20,7 +20,8 @@
     "format": "npm run format --workspaces",
     "check-todos": "grep -r --exclude-dir=node_modules --exclude-dir=.vite --exclude=package.json 'TODO:' . && echo 'TODOs found, please resolve them before pushing.' && exit 1 ||  echo 'No TODOs found'",
     "check-env": "node scripts/check-env.js",
-    "setup-nlapi-portal": "node scripts/setup-nlapi-portal.mjs"
+    "setup-nlapi-portal": "node scripts/setup-nlapi-portal.mjs",
+    "update-schema": "node scripts/update-schema.mjs"
   },
   "keywords": [],
   "author": "",
